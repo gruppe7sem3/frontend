@@ -18,6 +18,32 @@
 
   <!-- Your page content -->
  <h1>hej program</h1>
+ <div id="movie-info">
+  <h2>Film Information</h2>
+  <p><strong>Titel:</strong> <span id="movie-title"></span></p>
+  <p><strong>description:</strong> <span id="movie-description"></span></p>
+  <p><strong>duration:</strong> <span id="movie-duration"></span></p>
+  <p><strong>genre:</strong> <span id="movie-genre"></span></p>
+</div>
+<script>
+  $(document).ready(function() {
+    // IMDB-ID for den ønskede film
+    var imdbId = "tt1517268"; //  IMDB-ID
+
+    // URL til din backend-endpoint
+    var apiUrl = "/api/movies/fetch/" + imdbId;
+
+    // Send en GET-anmodning til din backend
+    $.get(apiUrl, function(data) {
+      // Opdater HTML-elementerne med filmoplysningerne
+      $("#movie-title").text(data.title);
+      $("#movie-description").text(data.description);
+      $("#movie-duration").text(data.duration);
+      $("#movie-genre").text(data.genre);
+    });
+  });
+</script>
+
 
   <!-- Include jQuery (you may need to download it or use a CDN) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
