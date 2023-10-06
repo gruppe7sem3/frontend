@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Theater Seat Booking</title>
+    <style>
+        /* Add your CSS styling for seats here */
+        .seat {
+            width: 20px;
+            height: 20px;
+            margin: 5px;
+            background-color: #ccc;
+            border: 1px solid #999;
+            display: inline-block;
+            cursor: pointer;
+        }
+
+        .selected {
+            background-color: #ff8f00; /* Selected seat color */
+        }
+
+        .booked {
+            background-color: #999; /* Booked seat color */
+            cursor: not-allowed;
+        }
+
+        #seat-container {
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <h1>Theater Seat Booking</h1>
+    <div id="seat-container">
+        <!-- Your seats will be dynamically generated here using JavaScript -->
+    </div>
+    <p>Selected Seats: <span id="selected-seats">0</span></p>
+    <button id="book-btn">Book</button>
+
+    <script>
+        // Define the number of rows and seats per row
+        const numRows = 6;
+        const seatsPerRow = 10;
+
+        const seatContainer = document.getElementById("seat-container");
+        const selectedSeatsCount = document.getElementById("selected-seats");
+        const bookButton = document.getElementById("book-btn");
+
+        let selectedSeats = [];
+
+        // Create the theater seats dynamically
+        for (let row = 1; row <= numRows; row++) {
+            for (let seat = 1; seat <= seatsPerRow; seat++) {
+                const seatElement = document.createElement("div");
+                seatElement.classList.add("seat");
+                seatElement.dataset.row = row;
+                seatElement.dataset.seat = seat;
+                seatContainer.appendChild(seatElement);
+            }
+        }
+
+        // Add event listener to seats
+        const seats = document.querySelectorAll(".seat");
+        seats.forEach(seat => {
+            seat.addEventListener("click", () => {
+                if (!seat.classList.contains("booked")) {
+                    seat.classList.toggle("selected");
+                    updateSelectedSeats();
+                }
+            });
+        });
+
+        // Update the selected seats count
+        function updateSelectedSeats() {
+            selectedSeats = document.querySelectorAll(".seat.selected");
+            selectedSeatsCount.textContent = selectedSeats.length;
+        }
+
+        // Book button click event
+        bookButton.addEventListener("click", () => {
+            // You can implement the booking logic here
+            alert(`You have booked ${selectedSeats.length} seats.`);
+        });
+    </script>
+</body>
+</html>
