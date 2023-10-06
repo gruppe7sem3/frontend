@@ -1,41 +1,60 @@
-
+/* Reset some default styles */
 body {
-    margin: 0;
-    padding: 0;
-    font-family: Arial, sans-serif;
-    background-color: #f2f2f2;
-  }
- 
+  margin: 0;
+  padding: 0;
+  font-family: Arial, sans-serif;
+  background-color: #f2f2f2;
+}
 
-  
-  /* Style the container for the main content */
-  .container {
-    background-color: #fff;
-    padding: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  }
-  
-  /* Style the heading */
-  h1 {
-    font-size: 28px;
-    color: #333;
-  }
-  
-  /* Style the welcome message */
-  #home-content {
-    text-align: center;
-    padding: 20px;
-  }
-  
-  /* Style links */
-  a {
-    text-decoration: none;
-    color: #007BFF;
-    transition: color 0.3s;
-  }
-  
-  a:hover {
-    color: #0056b3;
-  }
-  
+
+/* Style the hero section */
+.container-fluid.bg-dark {
+  padding: 80px 0;
+  text-align: center;
+}
+
+.container-fluid.bg-dark h1 {
+  font-size: 36px;
+}
+
+.container-fluid.bg-dark p {
+  font-size: 20px;
+}
+
+/* Style the "Now Showing" section */
+.container.my-5 h2 {
+  font-size: 28px;
+  color: #333;
+  margin-bottom: 20px;
+}
+
+.card {
+  border: none;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: transform 0.2s;
+}
+
+.card:hover {
+  transform: scale(1.03);
+}
+
+.card-title {
+  font-size: 20px;
+  margin-top: 10px;
+}
+
+.card-text {
+  font-size: 16px;
+  color: #555;
+  margin-top: 10px;
+}
+
+.btn-primary {
+  background-color: #007BFF;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+}
