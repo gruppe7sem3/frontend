@@ -17,10 +17,12 @@ Employees:
 1 movie operator.
 1 employee for ticket inspection and cleaning.
 Core System Requirements:
+
 1. User Authentication and Access Control:
 
 Support user authentication for different employee roles.
 Define role-based access control.
+
 2. Reservation and Ticketing System:
 
 Enable browsing of movie listings and showtimes.
@@ -28,19 +30,23 @@ Enforce age limits for ticket purchases.
 Implement online payment processing.
 Manage seat availability during reservations.
 Send confirmation emails/tickets to customers.
+
 3. Movie and Show Management:
 
 Schedule movies for specific theaters and showtimes.
 Allow for scheduling of extra shows or events.
 Provide a mechanism for removing poorly performing movies.
+
 4. Concession Sales:
 
 Support the sale of concession items (popcorn, candy, soda, etc.).
 Implement inventory management for concession items.
+
 5. Reporting and Analytics:
 
 Generate reports on ticket sales, reservations, and concession sales.
 Provide insights into movie performance and attendance.
+
 6. Cleaning and Maintenance:
 
 Implement a task management system for cleaning and maintenance staff.
