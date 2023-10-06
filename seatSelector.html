@@ -6,18 +6,29 @@
     <title>Theater Seat Booking</title>
     <style>
         /* Add your CSS styling for seats here */
+        .seat-container {
+            display: grid;
+            grid-template-columns: repeat(25, 30px); /* Adjust seat size and columns as needed */
+            gap: 5px;
+            justify-content: center;
+        }
+
         .seat {
-            width: 20px;
-            height: 20px;
-            margin: 5px;
+            width: 30px;
+            height: 30px;
             background-color: #ccc;
             border: 1px solid #999;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
+            font-weight: bold;
+            transition: background-color 0.3s ease-in-out;
         }
 
         .selected {
             background-color: #ff8f00; /* Selected seat color */
+            color: #fff;
         }
 
         .booked {
@@ -25,27 +36,36 @@
             cursor: not-allowed;
         }
 
+        /* Center align the seat numbers */
+        .seat-number {
+            position: absolute;
+            transform: translate(-50%, -50%);
+        }
+
         #seat-container {
             text-align: center;
+            margin: auto;
         }
     </style>
 </head>
 <body>
     <h1>Theater Seat Booking</h1>
-    <div id="seat-container">
+    <div id="seat-container" class="seat-container">
         <!-- Your seats will be dynamically generated here using JavaScript -->
     </div>
     <p>Selected Seats: <span id="selected-seats">0</span></p>
+    <p id="click-message"></p> <!-- Display the click message here -->
     <button id="book-btn">Book</button>
 
     <script>
         // Define the number of rows and seats per row
-        const numRows = 6;
-        const seatsPerRow = 10;
+        const numRows = 20;
+        const seatsPerRow = 25;
 
         const seatContainer = document.getElementById("seat-container");
         const selectedSeatsCount = document.getElementById("selected-seats");
         const bookButton = document.getElementById("book-btn");
+        const clickMessage = document.getElementById("click-message");
 
         let selectedSeats = [];
 
@@ -56,7 +76,13 @@
                 seatElement.classList.add("seat");
                 seatElement.dataset.row = row;
                 seatElement.dataset.seat = seat;
+                seatElement.id = `seat-${row}-${seat}`; // Assign unique ID
                 seatContainer.appendChild(seatElement);
+
+                const seatNumberElement = document.createElement("span");
+                seatNumberElement.classList.add("seat-number");
+               // seatNumberElement.textContent = seat + (row - 1) * seatsPerRow; // Sequential numbering
+                seatElement.appendChild(seatNumberElement);
             }
         }
 
@@ -67,6 +93,7 @@
                 if (!seat.classList.contains("booked")) {
                     seat.classList.toggle("selected");
                     updateSelectedSeats();
+                    showClickMessage(seat.id);
                 }
             });
         });
@@ -75,6 +102,11 @@
         function updateSelectedSeats() {
             selectedSeats = document.querySelectorAll(".seat.selected");
             selectedSeatsCount.textContent = selectedSeats.length;
+        }
+
+        // Show click message
+        function showClickMessage(seatId) {
+            clickMessage.textContent = `You clicked on seat with ID: ${seatId}`;
         }
 
         // Book button click event
