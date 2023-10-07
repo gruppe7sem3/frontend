@@ -10,7 +10,6 @@
   <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   
-
   <link rel="stylesheet" href="css/styles.css">
 </head>
 <body>
@@ -20,48 +19,16 @@
   <!-- Hero section -->
   <div class="container-fluid bg-dark text-light p-5">
     <div class="container">
-      <h1 class="display-4">Velkommen til Kino XP </h1>
+      <h1 class="display-4">Velkommen til Kino XP</h1>
       <p class="lead">Din ultimative destination for film, underholdning, og mere!</p>
     </div>
   </div>
 
   <!-- Movie Schedule -->
-  <div class="container my-5">
+  <div class="container my-5" id="movie-container">
     <h2>Aktuelle film</h2>
-    <div class="row">
-      <!-- Movie Cards -->
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="images/movie1.jpg" class="card-img-top" alt="Movie 1">
-          <div class="card-body">
-            <h5 class="card-title">Movie Title 1</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="images/movie2.jpg" class="card-img-top" alt="Movie 2">
-          <div class="card-body">
-            <h5 class="card-title">Movie Title 2</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-          </div>
-        </div>
-      </div>
-
-      <div class="col-md-4 mb-4">
-        <div class="card">
-          <img src="images/movie3.jpg" class="card-img-top" alt="Movie 3">
-          <div class="card-body">
-            <h5 class="card-title">Movie Title 3</h5>
-            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
-            <a href="#" class="btn btn-primary">Book Now</a>
-          </div>
-        </div>
-      </div>
+    <div class="row" id="movie-cards">
+      <!-- Movie Cards will be generated here -->
     </div>
   </div>
 
@@ -75,6 +42,61 @@
     });
   </script>
 
-  <!-- ... (your other scripts and closing tags) ... -->
+  <!-- JavaScript to fetch and display movies -->
+  <script>
+    // Function to fetch JSON data from your API
+    function fetchMovies() {
+      fetch('http://localhost:2222/shows')
+        .then((response) => response.json())
+        .then((data) => {
+          const movieContainer = document.getElementById('movie-cards');
+
+          // Loop through the JSON data and create movie cards
+          data.forEach((movie) => {
+            const cardDiv = document.createElement('div');
+            cardDiv.classList.add('col-md-4', 'mb-4');
+
+            const card = document.createElement('div');
+            card.classList.add('card');
+
+            const img = document.createElement('img');
+            img.src = movie.poster; // Assuming your JSON data includes a 'poster' field
+            img.classList.add('card-img-top');
+            img.alt = movie.title; // Assuming your JSON data includes a 'title' field
+
+            const cardBody = document.createElement('div');
+            cardBody.classList.add('card-body');
+
+            const title = document.createElement('h5');
+            title.classList.add('card-title');
+            title.textContent = movie.title; // Assuming your JSON data includes a 'title' field
+
+            const description = document.createElement('p');
+            description.classList.add('card-text');
+            description.textContent = movie.description; // Assuming your JSON data includes a 'description' field
+
+            const link = document.createElement('a');
+            link.href = '#'; // Replace with your booking link
+            link.classList.add('btn', 'btn-primary');
+            link.textContent = 'Book Now';
+
+            // Append elements to build the movie card
+            cardBody.appendChild(title);
+            cardBody.appendChild(description);
+            cardBody.appendChild(link);
+            card.appendChild(img);
+            card.appendChild(cardBody);
+            cardDiv.appendChild(card);
+            movieContainer.appendChild(cardDiv);
+          });
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+        });
+    }
+
+    // Call the function to fetch and display movies
+    fetchMovies();
+  </script>
 </body>
 </html>

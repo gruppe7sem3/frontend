@@ -32,8 +32,8 @@
         }
 
         .booked {
-            background-color: #999; /* Booked seat color */
             cursor: not-allowed;
+            background-color: green; /* Set the background color for booked seats to green */
         }
 
         /* Center align the seat numbers */
@@ -46,6 +46,25 @@
             text-align: center;
             margin: auto;
         }
+
+        .legend {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-top: 10px; /* Adjust the top margin as needed */
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            margin-right: 20px;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            margin-right: 5px;
+        }
     </style>
 </head>
 <body>
@@ -56,6 +75,18 @@
     <p>Selected Seats: <span id="selected-seats">0</span></p>
     <p id="click-message"></p> <!-- Display the click message here -->
     <button id="book-btn">Book</button>
+
+    <!-- Legend explaining seat colors -->
+    <div class="legend">
+        <div class="legend-item">
+            <div class="legend-color booked"></div>
+            <span>Booked Seat</span>
+        </div>
+        <div class="legend-item">
+            <div class="legend-color selected"></div>
+            <span>Selected Seat</span>
+        </div>
+    </div>
 
     <script>
         // Define the number of rows and seats per row
@@ -142,12 +173,7 @@
             clickMessage.textContent = `You clicked on seat in Row ${row}, Column ${column}`;
         }
     
-        // Book button click event
-        bookButton.addEventListener("click", () => {
-            // You can implement the booking logic here based on the selected seats
-            const selectedSeatIds = Array.from(selectedSeats).map((seat) => seat.id);
-            alert(`You have booked the following seats: ${selectedSeatIds.join(", ")}`);
-        });
+    
     </script>
     
 </body>
