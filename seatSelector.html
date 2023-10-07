@@ -61,59 +61,94 @@
         // Define the number of rows and seats per row
         const numRows = 20;
         const seatsPerRow = 25;
-
+    
         const seatContainer = document.getElementById("seat-container");
         const selectedSeatsCount = document.getElementById("selected-seats");
         const bookButton = document.getElementById("book-btn");
         const clickMessage = document.getElementById("click-message");
-
+    
         let selectedSeats = [];
-
-        // Create the theater seats dynamically
-        for (let row = 1; row <= numRows; row++) {
-            for (let seat = 1; seat <= seatsPerRow; seat++) {
-                const seatElement = document.createElement("div");
-                seatElement.classList.add("seat");
-                seatElement.dataset.row = row;
-                seatElement.dataset.seat = seat;
-                seatElement.id = `seat-${row}-${seat}`; // Assign unique ID
-                seatContainer.appendChild(seatElement);
-
-                const seatNumberElement = document.createElement("span");
-                seatNumberElement.classList.add("seat-number");
-               // seatNumberElement.textContent = seat + (row - 1) * seatsPerRow; // Sequential numbering
-                seatElement.appendChild(seatNumberElement);
+    
+        // Function to fetch booking information for a specific show
+        async function fetchBookingsForShow(showId) {
+            try {
+                const response = await fetch(`http://localhost:2222/api/bookings/seatIdsForShow/${showId}`);
+                if (!response.ok) {
+                    throw new Error("Failed to fetch booking information");
+                }
+                const seatIds = await response.json();
+                return seatIds;
+            } catch (error) {
+                console.error(error);
+                return [];
             }
         }
-
-        // Add event listener to seats
-        const seats = document.querySelectorAll(".seat");
-        seats.forEach(seat => {
-            seat.addEventListener("click", () => {
-                if (!seat.classList.contains("booked")) {
-                    seat.classList.toggle("selected");
-                    updateSelectedSeats();
-                    showClickMessage(seat.id);
+    
+        // Wrap the code in an async function
+        async function initializeSeats() {
+            // Fetch booking information for a specific show (show ID 1)
+            const showId = 1;
+            const bookedSeatIds = await fetchBookingsForShow(showId);
+    
+            let seatIdCounter = 1; // Initialize the seat ID counter
+    
+            // Create the theater seats dynamically
+            for (let row = 1; row <= numRows; row++) {
+                for (let seat = 1; seat <= seatsPerRow; seat++) {
+                    const seatElement = document.createElement("div");
+                    seatElement.classList.add("seat");
+                    seatElement.dataset.row = row;
+                    seatElement.dataset.column = seat; // Assign column number
+                    seatElement.id = `seat-${row}-${seatIdCounter}`; // Assign unique ID
+                    seatContainer.appendChild(seatElement);
+    
+                    const seatNumberElement = document.createElement("span");
+                    seatNumberElement.classList.add("seat-number");
+                    seatElement.appendChild(seatNumberElement);
+    
+                    // Check if the seat is booked for the show and add the "booked" class
+                    if (bookedSeatIds.includes(seatIdCounter)) {
+                        seatElement.classList.add("booked");
+                    }
+    
+                    seatIdCounter++; // Increment seat ID counter
                 }
+            }
+    
+            // Add event listener to seats
+            const seats = document.querySelectorAll(".seat");
+            seats.forEach((seat) => {
+                seat.addEventListener("click", () => {
+                    if (!seat.classList.contains("booked")) {
+                        seat.classList.toggle("selected");
+                        updateSelectedSeats();
+                        showClickMessage(seat.dataset.row, seat.dataset.column);
+                    }
+                });
             });
-        });
-
+        }
+    
+        // Call the async function to initialize seats
+        initializeSeats();
+    
         // Update the selected seats count
         function updateSelectedSeats() {
             selectedSeats = document.querySelectorAll(".seat.selected");
             selectedSeatsCount.textContent = selectedSeats.length;
         }
-
-        // Show click message
-        function showClickMessage(seatId) {
-            clickMessage.textContent = `You clicked on seat with ID: ${seatId}`;
+    
+        // Show click message with row and column numbers
+        function showClickMessage(row, column) {
+            clickMessage.textContent = `You clicked on seat in Row ${row}, Column ${column}`;
         }
-
+    
         // Book button click event
         bookButton.addEventListener("click", () => {
-            // You can implement the booking logic here
-            alert(`You have booked ${selectedSeats.length} seats.`);
+            // You can implement the booking logic here based on the selected seats
+            const selectedSeatIds = Array.from(selectedSeats).map((seat) => seat.id);
+            alert(`You have booked the following seats: ${selectedSeatIds.join(", ")}`);
         });
     </script>
+    
 </body>
 </html>
