@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -13,33 +12,69 @@
   <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
   <style>
     body {
-        font-family: Arial, sans-serif;
-        text-align: center;
-        background-color: #f0f0f0; /* Background color of the page */
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background-color: #f0f0f0; /* Background color of the page */
+      margin: 0;
+      padding: 0;
     }
-    #movieDetails {
-        max-width: 800px;
-        margin: 0 auto;
-        background-color: #fff; /* Background color of the movie details container */
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.3); /* Box shadow for a raised effect */
-    }
-    h2 {
-        color: #333;
-    }
-    p {
-        color: #666;
-    }
-    img {
-        max-width: 100%;
-        height: auto;
-        margin-top: 10px;
-        border: 1px solid #ccc; /* Add a border to the poster */
-        border-radius: 5px;
-    }
-</style>
 
+    h1 {
+      color: #333;
+      margin-top: 20px;
+    }
+
+    #allMovies {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr); /* Display four items per row */
+      gap: 20px; /* Spacing between items */
+      justify-items: center;
+    }
+
+    .movie-details {
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      padding: 10px; /* Reduced padding */
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+      background-color: #fff;
+      max-width: 300px;
+      text-align: left;
+    }
+
+    .movie-details h2 {
+      color: #333;
+      font-size: 1.5rem;
+      margin: 0; /* No margin for h2 */
+    }
+
+    .movie-details p {
+      color: #666;
+      margin: 5px 0;
+    }
+
+    .movie-details img {
+      max-width: 100%;
+      height: auto;
+      margin-top: 10px;
+      border: 1px solid #ccc; /* Add a border to the poster */
+      border-radius: 5px;
+      display: block; /* Show the poster by default */
+    }
+
+    .hidden-details {
+      display: none; /* Initially hide the additional details */
+    }
+
+    .expand-button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+  </style>
 </head>
 <body>
   <!-- Placeholder for the navbar -->
@@ -47,8 +82,8 @@
 
   <h1>Movie Details</h1>
 
-  <!-- Placeholder for movie details -->
-  <div id="movieDetails"></div>
+  <!-- Container to display all movies -->
+  <div id="allMovies"></div>
 
   <!-- Include jQuery (you may need to download it or use a CDN) -->
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -60,10 +95,10 @@
     });
   </script>
 
-  <!-- Load the movie details using JavaScript -->
+  <!-- Load and display all movies using JavaScript -->
   <script>
-    async function fetchMovieDetails() {
-      const url = 'http://localhost:2222/api/movies/imdbid/tt1517268'; // Update with your actual URL
+    async function fetchAllMovies() {
+      const url = 'http://localhost:2222/api/movies/all'; // Update with your actual URL
 
       try {
         const response = await fetch(url);
@@ -71,30 +106,56 @@
           throw new Error('Network response was not ok');
         }
         const data = await response.json();
-        const movieDetailsElement = document.getElementById('movieDetails');
-        movieDetailsElement.innerHTML = `
-          <h2>${data.title}</h2>
-          <p>IMDb ID: ${data.imdbID}</p>
-          <p>Director: ${data.director}</p>
-          <p>Year: ${data.year}</p>
-          <p>Plot: ${data.plot}</p>
-          <p>Rated: ${data.rated}</p>
-          <p>Released: ${data.released}</p>
-          <p>Runtime: ${data.runtime}</p>
-          <p>Genre: ${data.genre}</p>
-          <p>Actors: ${data.actors}</p>
-          <img src="${data.poster}" alt="${data.title} Poster">
-          <!-- You can add more fields as needed -->
-        `;
+        const allMoviesElement = document.getElementById('allMovies');
+
+        if (data.length === 0) {
+          allMoviesElement.innerHTML = '<p>No movies found.</p>';
+        } else {
+          data.forEach(movie => {
+            const movieDetails = `
+              <div class="movie-details">
+                <h2>${movie.title}</h2>
+                <img src="${movie.poster}" alt="${movie.title} Poster">
+                <p>Director: ${movie.director}</p>
+                <p>Actors: ${movie.actors}</p>
+                <p>IMDb ID: ${movie.imdbID}</p>
+                  <p>Year: ${movie.year}</p>
+                <button class="expand-button" onclick="toggleDetails(this)">Expand</button>
+                <div class="hidden-details">
+                 
+                  <p class="plot">Plot: ${movie.plot}</p>
+                  <p>Rated: ${movie.rated}</p>
+                  <p>Released: ${movie.released}</p>
+                  <p>Runtime: ${movie.runtime}</p>
+                  <p>Genre: ${movie.genre}</p>
+                </div>
+              </div>
+            `;
+            allMoviesElement.innerHTML += movieDetails;
+          });
+        }
       } catch (error) {
         console.error('Fetch error:', error);
-        const movieDetailsElement = document.getElementById('movieDetails');
-        movieDetailsElement.innerHTML = '<p>Error fetching movie details</p>';
+        const allMoviesElement = document.getElementById('allMovies');
+        allMoviesElement.innerHTML = '<p>Error fetching movie list</p>';
       }
     }
 
-    fetchMovieDetails();
+    function toggleDetails(button) {
+      const hiddenDetails = button.nextElementSibling;
+      const plot = hiddenDetails.querySelector('.plot');
+      if (hiddenDetails.style.display === 'none' || hiddenDetails.style.display === '') {
+        hiddenDetails.style.display = 'block';
+        button.textContent = 'Collapse';
+        plot.style.display = 'block'; // Show the plot
+      } else {
+        hiddenDetails.style.display = 'none';
+        button.textContent = 'Expand';
+        plot.style.display = 'none'; // Hide the plot
+      }
+    }
+
+    fetchAllMovies();
   </script>
 </body>
 </html>
-
