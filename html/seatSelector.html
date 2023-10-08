@@ -68,13 +68,46 @@
     </style>
 </head>
 <body>
+
+    <!-- Navbar placeholder -->
+  <div id="navbar-placeholder"></div>
+
+  <!-- Your page content -->
+  <div id="home-content" class="container mt-4"> 
+    <!-- Include jQuery (you may need to download it or use a CDN) -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <!-- Load the navbar using jQuery -->
+    <script>
+      $(function() {
+        $('#navbar-placeholder').load('navbar.html');
+      });
+    </script>
+
     <h1>Theater Seat Booking</h1>
-    <div id="seat-container" class="seat-container">
-        <!-- Your seats will be dynamically generated here using JavaScript -->
+
+    <!-- Div for seat selection interface -->
+    <div id="seat-selection">
+        <div id="seat-container" class="seat-container">
+            <!-- Your seats will be dynamically generated here using JavaScript -->
+        </div>
+        <p>Selected Seats: <span id="selected-seats">0</span></p>
+        <p id="click-message"></p> <!-- Display the click message here -->
     </div>
-    <p>Selected Seats: <span id="selected-seats">0</span></p>
-    <p id="click-message"></p> <!-- Display the click message here -->
-    <button id="book-btn">Book</button>
+
+    <!-- "Book" button initially hidden -->
+    <button id="book-btn" style="display: none;">Book</button>
+
+    <!-- Customer ID input (no name or email fields) -->
+    <div id="customer-login" style="display: none;">
+        <form>
+            <label for="customerId">Customer ID:</label>
+            <input type="text" id="customerId" name="customerId" required><br>
+
+            <!-- "Confirm Booking" button -->
+            <button type="button" id="confirm-booking-btn">Confirm Booking</button>
+        </form>
+    </div>
 
     <!-- Legend explaining seat colors -->
     <div class="legend">
@@ -92,14 +125,16 @@
         // Define the number of rows and seats per row
         const numRows = 20;
         const seatsPerRow = 25;
-    
+
         const seatContainer = document.getElementById("seat-container");
         const selectedSeatsCount = document.getElementById("selected-seats");
         const bookButton = document.getElementById("book-btn");
         const clickMessage = document.getElementById("click-message");
-    
+        const customerLogin = document.getElementById("customer-login");
+        const confirmBookingButton = document.getElementById("confirm-booking-btn");
+
         let selectedSeats = [];
-    
+
         // Function to fetch booking information for a specific show
         async function fetchBookingsForShow(showId) {
             try {
@@ -114,15 +149,23 @@
                 return [];
             }
         }
-    
+
+        // Function to extract URL parameters
+        function getUrlParameter(name) {
+            const urlParams = new URLSearchParams(window.location.search);
+            return urlParams.get(name);
+        }
+
         // Wrap the code in an async function
         async function initializeSeats() {
-            // Fetch booking information for a specific show (show ID 1)
-            const showId = 1;
+            // Extract the showId from the URL parameters
+            const showId = getUrlParameter("showId");
+
+            // Fetch booking information for the selected show
             const bookedSeatIds = await fetchBookingsForShow(showId);
-    
+
             let seatIdCounter = 1; // Initialize the seat ID counter
-    
+
             // Create the theater seats dynamically
             for (let row = 1; row <= numRows; row++) {
                 for (let seat = 1; seat <= seatsPerRow; seat++) {
@@ -130,22 +173,23 @@
                     seatElement.classList.add("seat");
                     seatElement.dataset.row = row;
                     seatElement.dataset.column = seat; // Assign column number
+                    seatElement.dataset.seatId = seatIdCounter; // Assign seat ID
                     seatElement.id = `seat-${row}-${seatIdCounter}`; // Assign unique ID
                     seatContainer.appendChild(seatElement);
-    
+
                     const seatNumberElement = document.createElement("span");
                     seatNumberElement.classList.add("seat-number");
                     seatElement.appendChild(seatNumberElement);
-    
+
                     // Check if the seat is booked for the show and add the "booked" class
                     if (bookedSeatIds.includes(seatIdCounter)) {
                         seatElement.classList.add("booked");
                     }
-    
+
                     seatIdCounter++; // Increment seat ID counter
                 }
             }
-    
+
             // Add event listener to seats
             const seats = document.querySelectorAll(".seat");
             seats.forEach((seat) => {
@@ -158,23 +202,90 @@
                 });
             });
         }
-    
+
         // Call the async function to initialize seats
         initializeSeats();
-    
+
         // Update the selected seats count
         function updateSelectedSeats() {
             selectedSeats = document.querySelectorAll(".seat.selected");
             selectedSeatsCount.textContent = selectedSeats.length;
+
+            // Show the "Book" button when seats are selected
+            if (selectedSeats.length > 0) {
+                bookButton.style.display = "block";
+            } else {
+                bookButton.style.display = "none";
+            }
         }
-    
+
         // Show click message with row and column numbers
         function showClickMessage(row, column) {
             clickMessage.textContent = `You clicked on seat in Row ${row}, Column ${column}`;
         }
-    
-    
+
+        // Event listener for the "Book" button
+        bookButton.addEventListener("click", () => {
+            // Show the customer login form
+            customerLogin.style.display = "block";
+        });
+
+        // Event listener for the "Confirm Booking" button
+        confirmBookingButton.addEventListener("click", async () => {
+            // Get customer ID
+            const customerId = document.getElementById("customerId").value;
+
+            // Check if the customer ID is provided
+            if (!customerId) {
+                alert("Please provide a customer ID.");
+                return;
+            }
+
+            // Create a booking for each selected seat
+            for (const selectedSeat of selectedSeats) {
+                const seatId = selectedSeat.dataset.seatId;
+
+                // Create the booking request object for the current seat
+                const bookingRequest = {
+                    seatId: seatId,
+                    showId: getUrlParameter("showId"),
+                    customerId: customerId
+                };
+
+                // Send a POST request to create a booking
+                try {
+                    const response = await fetch("http://localhost:2222/api/bookings/add", {
+                        method: "POST",
+                        headers: {
+                            "Content-Type": "application/json",
+                        },
+                        body: JSON.stringify(bookingRequest),
+                    });
+
+                    if (!response.ok) {
+                        console.error(`Failed to create booking for seat ${seatId}`);
+                    } else {
+                        console.log(`Booking created successfully for seat ${seatId}`);
+                    }
+                } catch (error) {
+                    console.error(`Failed to create booking for seat ${seatId}`, error);
+                }
+            }
+
+            // Reset the selected seats
+            selectedSeats.forEach((selectedSeat) => {
+                selectedSeat.classList.remove("selected");
+            });
+            selectedSeats = [];
+            updateSelectedSeats();
+
+            // Hide the customer login form
+            customerLogin.style.display = "none";
+
+            // Booking created successfully, you can handle the response here if needed
+            alert("Bookings created successfully!");
+            location.reload();
+        });
     </script>
-    
 </body>
 </html>

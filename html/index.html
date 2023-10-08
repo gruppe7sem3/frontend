@@ -43,60 +43,62 @@
   </script>
 
   <!-- JavaScript to fetch and display movies -->
-  <script>
-    // Function to fetch JSON data from your API
-    function fetchMovies() {
+<!-- JavaScript to fetch and display movies -->
+<script>
+  // Function to fetch JSON data from your API
+  function fetchMovies() {
       fetch('http://localhost:2222/shows')
-        .then((response) => response.json())
-        .then((data) => {
-          const movieContainer = document.getElementById('movie-cards');
+          .then((response) => response.json())
+          .then((data) => {
+              const movieContainer = document.getElementById('movie-cards');
 
-          // Loop through the JSON data and create movie cards
-          data.forEach((movie) => {
-            const cardDiv = document.createElement('div');
-            cardDiv.classList.add('col-md-4', 'mb-4');
+              // Loop through the JSON data and create movie cards
+              data.forEach((movie) => {
+  const cardDiv = document.createElement('div');
+  cardDiv.classList.add('col-md-4', 'mb-4');
 
-            const card = document.createElement('div');
-            card.classList.add('card');
+  const card = document.createElement('div');
+  card.classList.add('card');
 
-            const img = document.createElement('img');
-            img.src = movie.poster; // Assuming your JSON data includes a 'poster' field
-            img.classList.add('card-img-top');
-            img.alt = movie.title; // Assuming your JSON data includes a 'title' field
+  const img = document.createElement('img');
+  img.src = movie.poster; // Assuming your JSON data includes a 'poster' field
+  img.classList.add('card-img-top');
+  img.alt = movie.title; // Assuming your JSON data includes a 'title' field
 
-            const cardBody = document.createElement('div');
-            cardBody.classList.add('card-body');
+  const cardBody = document.createElement('div');
+  cardBody.classList.add('card-body');
 
-            const title = document.createElement('h5');
-            title.classList.add('card-title');
-            title.textContent = movie.title; // Assuming your JSON data includes a 'title' field
+  const title = document.createElement('h5');
+  title.classList.add('card-title');
+  title.textContent = movie.title; // Assuming your JSON data includes a 'title' field
 
-            const description = document.createElement('p');
-            description.classList.add('card-text');
-            description.textContent = movie.description; // Assuming your JSON data includes a 'description' field
+  const description = document.createElement('p');
+  description.classList.add('card-text');
+  description.textContent = movie.description; // Assuming your JSON data includes a 'description' field
 
-            const link = document.createElement('a');
-            link.href = '#'; // Replace with your booking link
-            link.classList.add('btn', 'btn-primary');
-            link.textContent = 'Book Now';
+  const link = document.createElement('a');
+  link.href = `seatSelector.html?showId=${movie.showId}`; // Include the showId in the URL
+  link.classList.add('btn', 'btn-primary');
+  link.textContent = 'Book Now';
 
-            // Append elements to build the movie card
-            cardBody.appendChild(title);
-            cardBody.appendChild(description);
-            cardBody.appendChild(link);
-            card.appendChild(img);
-            card.appendChild(cardBody);
-            cardDiv.appendChild(card);
-            movieContainer.appendChild(cardDiv);
+  // Append elements to build the movie card
+  cardBody.appendChild(title);
+  cardBody.appendChild(description);
+  cardBody.appendChild(link); // Add the link to the card body
+  card.appendChild(img);
+  card.appendChild(cardBody);
+  cardDiv.appendChild(card);
+  movieContainer.appendChild(cardDiv);
+});
+          })
+          .catch((error) => {
+              console.error('Error fetching data:', error);
           });
-        })
-        .catch((error) => {
-          console.error('Error fetching data:', error);
-        });
-    }
+  }
 
-    // Call the function to fetch and display movies
-    fetchMovies();
-  </script>
+  // Call the function to fetch and display movies
+  fetchMovies();
+</script>
+
 </body>
 </html>
