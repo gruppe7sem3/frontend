@@ -17,6 +17,7 @@
       background-color: #f0f0f0; /* Background color of the page */
       margin: 0;
       padding: 0;
+      color: white; /* Text color set to white */
     }
 
     h1 {
@@ -76,7 +77,7 @@
     }
   </style>
 </head>
-<body>
+<body style="background-color: black;">
   <!-- Placeholder for the navbar -->
   <div id="navbar-placeholder"></div>
 
@@ -96,33 +97,34 @@
   </script>
 
   <!-- Load and display all movies using JavaScript -->
-  <script>
-    async function fetchAllMovies() {
-      const url = 'http://localhost:2222/api/movies/all'; // Update with your actual URL
+  <!-- Load and display all movies using JavaScript -->
+<script>
+  async function fetchAllMovies() {
+    const url = 'http://localhost:2222/api/movies/all'; // Update with your actual URL
 
-      try {
-        const response = await fetch(url);
-        if (!response.ok) {
-          throw new Error('Network response was not ok');
-        }
-        const data = await response.json();
-        const allMoviesElement = document.getElementById('allMovies');
+    try {
+      const response = await fetch(url);
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      const allMoviesElement = document.getElementById('allMovies');
 
-        if (data.length === 0) {
-          allMoviesElement.innerHTML = '<p>No movies found.</p>';
-        } else {
-          data.forEach(movie => {
-            const movieDetails = `
-              <div class="movie-details">
+      if (data.length === 0) {
+        allMoviesElement.innerHTML = '<p>No movies found.</p>';
+      } else {
+        data.forEach(movie => {
+          const movieDetails = `
+            <div class="movie-container">
+              <div class="movie-details" id="${movie.imdbID}">
                 <h2>${movie.title}</h2>
                 <img src="${movie.poster}" alt="${movie.title} Poster">
                 <p>Director: ${movie.director}</p>
                 <p>Actors: ${movie.actors}</p>
                 <p>IMDb ID: ${movie.imdbID}</p>
-                  <p>Year: ${movie.year}</p>
-                <button class="expand-button" onclick="toggleDetails(this)">Expand</button>
+                <p>Year: ${movie.year}</p>
+                <button class="expand-button" onclick="toggleDetails('${movie.imdbID}')">Expand</button>
                 <div class="hidden-details">
-                 
                   <p class="plot">Plot: ${movie.plot}</p>
                   <p>Rated: ${movie.rated}</p>
                   <p>Released: ${movie.released}</p>
@@ -130,32 +132,35 @@
                   <p>Genre: ${movie.genre}</p>
                 </div>
               </div>
-            `;
-            allMoviesElement.innerHTML += movieDetails;
-          });
-        }
-      } catch (error) {
-        console.error('Fetch error:', error);
-        const allMoviesElement = document.getElementById('allMovies');
-        allMoviesElement.innerHTML = '<p>Error fetching movie list</p>';
+            </div>
+          `;
+          allMoviesElement.innerHTML += movieDetails;
+        });
       }
+    } catch (error) {
+      console.error('Fetch error:', error);
+      const allMoviesElement = document.getElementById('allMovies');
+      allMoviesElement.innerHTML = '<p>Error fetching movie list</p>';
     }
+  }
 
-    function toggleDetails(button) {
-      const hiddenDetails = button.nextElementSibling;
-      const plot = hiddenDetails.querySelector('.plot');
-      if (hiddenDetails.style.display === 'none' || hiddenDetails.style.display === '') {
-        hiddenDetails.style.display = 'block';
-        button.textContent = 'Collapse';
-        plot.style.display = 'block'; // Show the plot
-      } else {
-        hiddenDetails.style.display = 'none';
-        button.textContent = 'Expand';
-        plot.style.display = 'none'; // Hide the plot
-      }
+  function toggleDetails(movieId) {
+    const hiddenDetails = document.getElementById(movieId).querySelector('.hidden-details');
+    const plot = hiddenDetails.querySelector('.plot');
+    const button = document.getElementById(movieId).querySelector('.expand-button');
+    if (hiddenDetails.style.display === 'none' || hiddenDetails.style.display === '') {
+      hiddenDetails.style.display = 'block';
+      button.textContent = 'Collapse';
+      plot.style.display = 'block'; // Show the plot
+    } else {
+      hiddenDetails.style.display = 'none';
+      button.textContent = 'Expand';
+      plot.style.display = 'none'; // Hide the plot
     }
+  }
 
-    fetchAllMovies();
-  </script>
+  fetchAllMovies();
+</script>
+
 </body>
 </html>

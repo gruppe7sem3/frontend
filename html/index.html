@@ -12,17 +12,50 @@
   
   <link rel="stylesheet" href="css/styles.css">
 </head>
-<body>
+<body style="background-color: black; color: white;">
+  <style>
+  .container-black {
+    position: relative; /* Ensure relative positioning for absolute children */
+  }
+  
+  .slideshow-container {
+    position: relative; /* Ensure relative positioning */
+    text-align: center;
+  }
+  
+  .text-over-slideshow {
+    position: absolute; /* Position absolute for overlay */
+    top: 50%; /* Adjust the top position as needed */
+    left: 50%; /* Adjust the left position as needed */
+    transform: translate(-50%, -50%); /* Center the text */
+    z-index: 2; /* Ensure text is above the slideshow */
+    text-align: center; /* Optional: Center-align text */
+    background: rgba(0, 0, 0, 0.5); /* Optional: Add a semi-transparent background */
+    padding: 20px; /* Optional: Add padding to the text */
+  }
+  </style>
+
   <!-- Placeholder for the navbar -->
   <div id="navbar-placeholder"></div>
 
+  <!--Sliide show-->
+ 
+
   <!-- Hero section -->
-  <div class="container-fluid bg-dark text-light p-5">
-    <div class="container">
+<div class="container-black text-light p-5">
+  <div class="container">
+    <!-- Place the slideshow container here -->
+    <div class="slideshow-container">
+      <iframe src="slide.html" width="100" height="100" frameborder="0"></iframe>
+    </div>
+
+    <!-- Add text over the slideshow -->
+    <div class="text-over-slideshow">
       <h1 class="display-4">Velkommen til Kino XP</h1>
       <p class="lead">Din ultimative destination for film, underholdning, og mere!</p>
     </div>
   </div>
+</div>
 
   <!-- Movie Schedule -->
   <div class="container my-5" id="movie-container">

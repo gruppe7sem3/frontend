@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Details</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+        }
+        h1 {
+            color: #333;
+        }
+        p {
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <h1>Movie Details</h1>
+    <div id="movieDetails">
+        <p>Loading movie details...</p>
+    </div>
+
+    <script>
+        async function fetchMovieDetails() {
+            const url = 'http://localhost:2222/api/movies/imdbid/tt1517268';
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const movieDetailsElement = document.getElementById('movieDetails');
+                movieDetailsElement.innerHTML = `
+                    <h2>${data.title}</h2>
+                    <p>IMDb ID: ${data.imdbID}</p>
+                    <p>Director: ${data.director}</p>
+                    <p>Year: ${data.year}</p>
+                    <p>Plot: ${data.plot}</p>
+                `;
+            } catch (error) {
+                console.error('Fetch error:', error);
+                const movieDetailsElement = document.getElementById('movieDetails');
+                movieDetailsElement.innerHTML = '<p>Error fetching movie details</p>';
+            }
+        }
+
+        fetchMovieDetails();
+    </script>
+</body>
+</html>

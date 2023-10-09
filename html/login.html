@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        /* Add any additional CSS styles for the login page */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-section">
+        <h1>Velkommen til Kino </h1>
+        <p>Please log in to your account</p>
+        <form id="login-form">
+            <label for="username">Username:</label>
+            <input type="text" id="username" name="username" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <button type="submit" class="btn btn-primary">Login</button>
+        </form>
+        <p>Don't have an account? <a href="createCustomer.html">Register here</a></p>
+    </div>
+
+    <!-- Add your JavaScript code here to handle form submission and authentication -->
+ <!-- Add your JavaScript code here to handle form submission and authentication -->
+<script>
+    // Function to handle form submission
+    document.getElementById("login-form").addEventListener("submit", function(event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        // Get the username and password from the form
+        const username = document.getElementById("username").value;
+        const password = document.getElementById("password").value;
+
+        // Create an object to hold the login data
+        const loginData = {
+            name: username, // Use 'name' instead of 'username' to match your LoginRequest DTO
+            password: password
+        };
+
+        // Send the login data to the server for validation
+        fetch('http://localhost:2222/api/login/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(loginData)
+        })
+        .then(response => {
+            console.log("Response Status Code:", response.status); // Log the response status code
+            if (response.status === 200) {
+                // Authentication successful
+                // You can store the customer ID in local storage here
+    
+                // Redirect to the appropriate page (e.g., dashboard)
+                window.location.href = "index.html";
+            } else if (response.status === 401) {
+                // Authentication failed
+                alert("Authentication failed. Please check your username and password.");
+            } else {
+                // Handle other response status codes as needed
+                alert("An error occurred. Please try again later.");
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert("An error occurred. Please try again later.");
+        });
+    });
+</script>
+
+    
+</body>
+</html>

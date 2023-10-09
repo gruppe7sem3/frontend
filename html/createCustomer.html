@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register</title>
+    <style>
+        /* Add any additional CSS styles for the registration page */
+        body {
+            background-color: #f0f0f0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .login-section {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 600px;
+            text-align: center;
+        }
+
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            text-align: left;
+        }
+
+        input[type="text"],
+        input[type="email"], /* Apply the same styling to the email input */
+        input[type="password"] {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 3px;
+        }
+
+        .btn-primary {
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 3px;
+            cursor: pointer;
+        }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+        p {
+            margin-top: 15px;
+        }
+
+        a {
+            color: #007bff;
+            text-decoration: none;
+        }
+
+        /* Style for error messages */
+        .error-message {
+            color: #ff0000;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="login-section">
+        <h1>Register for Kino</h1>
+        <p>Please fill in the registration form</p>
+        <form id="registration-form">
+            <label for="name">Name:</label>
+            <input type="text" id="name" name="name" required><br>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required><br>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required><br>
+
+            <label for="confirm-password">Confirm Password:</label>
+            <input type="password" id="confirm-password" name="confirm-password" required><br>
+
+            <button type="submit" class="btn btn-primary">Register</button>
+        </form>
+        <p>Already have an account? <a href="login.html">Login here</a></p>
+
+        <!-- Error message display -->
+        <p class="error-message" id="error-message"></p>
+    </div>
+
+    <!-- Add your JavaScript code here to handle form submission and registration -->
+    <script>
+// Function to handle form submission
+document.getElementById("registration-form").addEventListener("submit", function(event) {
+    event.preventDefault(); // Prevent the default form submission
+
+    // Get the registration data from the form
+    const name = document.getElementById("name").value;
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+    const confirmPassword = document.getElementById("confirm-password").value;
+
+    // Check if passwords match
+    if (password !== confirmPassword) {
+        document.getElementById("error-message").innerText = "Passwords do not match. Please try again.";
+        return;
+    }
+
+    // Create an object to hold the registration data
+    const registrationData = {
+        name: name,
+        email: email,
+        password: password
+    };
+
+    // Send the registration data to a server for processing
+    fetch('http://localhost:2222/api/customers/add', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(registrationData)
+    })
+    .then(response => {
+        console.log("Response Status Code:", response.status); // Log the response status code
+        if (response.status === 200 || response.status === 201) {
+            return response.json(); // Success
+        } else {
+            throw new Error(`Registration failed with status code: ${response.status}`);
+        }
+    })
+    .then(data => {
+        console.log(data.response)
+            // Registration successful
+            // You can redirect to the login page or display a success message
+            alert("Registration successful!");
+            window.location.href = "login.html"; // Redirect to login page
+        
+    })
+    .catch(error => {
+        console.error('Error:', error.message);
+        document.getElementById("error-message").innerText = "Registration failed. Please try again.";
+    });
+});
+
+
+    </script>
+</body>
+</html>
