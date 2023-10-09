@@ -98,17 +98,15 @@
     <!-- "Book" button initially hidden -->
     <button id="book-btn" style="display: none;">Book</button>
 
-    <!-- Customer ID input (no name or email fields) -->
     <div id="customer-login" style="display: none;">
         <form>
             <label for="customerId">Customer ID:</label>
-            <input type="text" id="customerId" name="customerId" required><br>
-
+            <input type="text" id="customerIdnumb" name="customerId" required><br>
+    
             <!-- "Confirm Booking" button -->
             <button type="button" id="confirm-booking-btn">Confirm Booking</button>
         </form>
     </div>
-
     <!-- Legend explaining seat colors -->
     <div class="legend">
         <div class="legend-item">
@@ -229,63 +227,72 @@
             // Show the customer login form
             customerLogin.style.display = "block";
         });
+        document.addEventListener("DOMContentLoaded", function () {
+    // Get the input element by ID
+    const customerIdInput = document.getElementById('customerIdnumb');
+    const customerIdStorage = localStorage.getItem('customerId');
+
+    // Set the default value
+    customerIdInput.value = customerIdStorage
+});
 
         // Event listener for the "Confirm Booking" button
-        confirmBookingButton.addEventListener("click", async () => {
-            // Get customer ID
-            const customerId = document.getElementById("customerId").value;
+       // Event listener for the "Confirm Booking" button
+confirmBookingButton.addEventListener("click", async () => {
+    const customerId = document.getElementById("customerIdnumb").value;
 
-            // Check if the customer ID is provided
-            if (!customerId) {
-                alert("Please provide a customer ID.");
-                return;
-            }
+    // Check if the customer ID is provided
+    if (!customerId) {
+        alert("Please provide a customer ID.");
+        return;
+    }
 
-            // Create a booking for each selected seat
-            for (const selectedSeat of selectedSeats) {
-                const seatId = selectedSeat.dataset.seatId;
+    // Create a booking for each selected seat
+    for (const selectedSeat of selectedSeats) {
+        const seatId = selectedSeat.dataset.seatId;
 
-                // Create the booking request object for the current seat
-                const bookingRequest = {
-                    seatId: seatId,
-                    showId: getUrlParameter("showId"),
-                    customerId: customerId
-                };
+        // Create the booking request object for the current seat
+        const bookingRequest = {
+            seatId: seatId,
+            showId: getUrlParameter("showId"),
+            customerId: customerId // Use the customerId obtained from the input field
+        };
 
-                // Send a POST request to create a booking
-                try {
-                    const response = await fetch("http://localhost:2222/api/bookings/add", {
-                        method: "POST",
-                        headers: {
-                            "Content-Type": "application/json",
-                        },
-                        body: JSON.stringify(bookingRequest),
-                    });
-
-                    if (!response.ok) {
-                        console.error(`Failed to create booking for seat ${seatId}`);
-                    } else {
-                        console.log(`Booking created successfully for seat ${seatId}`);
-                    }
-                } catch (error) {
-                    console.error(`Failed to create booking for seat ${seatId}`, error);
-                }
-            }
-
-            // Reset the selected seats
-            selectedSeats.forEach((selectedSeat) => {
-                selectedSeat.classList.remove("selected");
+        // Send a POST request to create a booking
+        try {
+            const response = await fetch("http://localhost:2222/api/bookings/add", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(bookingRequest),
             });
-            selectedSeats = [];
-            updateSelectedSeats();
 
-            // Hide the customer login form
-            customerLogin.style.display = "none";
+            if (!response.ok) {
+                console.error(`Failed to create booking for seat ${seatId}`);
+            } else {
+                console.log(`Booking created successfully for seat ${seatId}`);
+            }
+        } catch (error) {
+            console.error(`Failed to create booking for seat ${seatId}`, error);
+        }
+    }
 
-            // Booking created successfully, you can handle the response here if needed
-            alert("Bookings created successfully!");
-            location.reload();
-        });
+    // Reset the selected seats
+    selectedSeats.forEach((selectedSeat) => {
+        selectedSeat.classList.remove("selected");
+    });
+    selectedSeats = [];
+    updateSelectedSeats();
+
+    // Hide the customer login form
+    customerLogin.style.display = "none";
+
+    // Booking created successfully, you can handle the response here if needed
+    alert("Bookings created successfully!");
+    location.reload();
+});
+
     </script>
 </body>
 </html>
