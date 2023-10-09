@@ -36,14 +36,34 @@
           
           <button id="logout-button" class="btn btn-danger" style="display: none;">Logout</button>
           <script>
-             // Get a reference to the "Login" button
-  const loginButton = document.getElementById("login-button");
-
-// Add a click event listener to the "Login" button
-loginButton.addEventListener("click", function() {
-  // Navigate to the login.html page
-  window.location.href = 'login.html'; // Replace with your actual path
-});
+            // Get a reference to the "Login" button
+            const loginButton = document.getElementById("login-button");
+          
+            // Get a reference to the "Logout" button
+            const logoutButton = document.getElementById("logout-button");
+          
+            // Check if a user is logged in by checking for a specific key in localStorage
+            if (localStorage.getItem("customerId")) {
+              // User is logged in, hide the "Login" button and show the "Logout" button
+              loginButton.style.display = "none";
+              logoutButton.style.display = "block";
+            }
+          
+            // Add a click event listener to the "Login" button
+            loginButton.addEventListener("click", function() {
+              // Navigate to the login.html page
+              window.location.href = 'login.html'; // Replace with your actual path
+            });
+          
+            // Add a click event listener to the "Logout" button
+            logoutButton.addEventListener("click", function() {
+              // Clear the user ID from localStorage to simulate a logout
+              localStorage.removeItem("customerId");
+              
+              // Hide the "Logout" button and show the "Login" button
+              logoutButton.style.display = "none";
+              loginButton.style.display = "block";
+            });
           </script>
         </div>
       </div>

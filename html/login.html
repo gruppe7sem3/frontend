@@ -112,9 +112,10 @@
         .then(response => {
             console.log("Response Status Code:", response.status); // Log the response status code
             if (response.status === 200) {
-                // Authentication successful
-                // You can store the customer ID in local storage here
-    
+                response.text().then(customerId => {
+            localStorage.setItem("customerId", customerId);
+        });
+                
                 // Redirect to the appropriate page (e.g., dashboard)
                 window.location.href = "index.html";
             } else if (response.status === 401) {
