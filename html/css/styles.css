@@ -66,21 +66,6 @@ body {
 }
 
 
-
-
-
-
-
-/* styles.css */
-
-/* Box styles for headers */
-h1, h2 {
-  background-color: #007bff; /* Blue background color */
-  color: white;
-  padding: 10px;
-  border-radius: 5px;
-}
-
 /* Centered text for unordered list */
 ul {
   text-align: center;
