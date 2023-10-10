@@ -23,63 +23,46 @@
 
     <h1>Add Show</h1>
 
-    <form id="addShowForm">
-        <!-- Input field for Show ID -->
-        <label for="showId">Show ID:</label>
-        <input type="text" id="showId" name="showId" required>
-
-        <!-- Dropdown menu for selecting a Movie -->
-        <label for="movieId">Select Movie:</label>
-        <select id="movieId" name="movieId" required>
-            <option value="1">Movie 1</option>
-            <option value="2">Movie 2</option>
-            <!-- Add more movie options as needed -->
-        </select>
-
-        <!-- Dropdown menu for selecting a Hall -->
-        <label for="hallId">Select Hall:</label>
-        <select id="hallId" name="hallId" required>
-            <option value="A">Hall A</option>
-            <option value="B">Hall B</option>
-            <!-- Add more hall options as needed -->
-        </select>
-
-        <!-- Input field for Show Date -->
-        <label for="showDate">Show Date:</label>
-        <input type="date" id="showDate" name="showDate" required>
-
-        <!-- Input field for Show Time -->
-        <label for="showTime">Show Time:</label>
-        <input type="time" id="showTime" name="showTime" required>
-
-        <button type="submit">Add Show</button>
-    </form>
 
 <!-- JavaScript for handling form submission -->
 <script>
-    document.getElementById("addShowForm").addEventListener("submit", function (e) {
-        e.preventDefault();
+   document.getElementById("addMovieByImdbIdForm").addEventListener("submit", function (e) {
+    e.preventDefault();
 
-        const showId = document.getElementById("showId").value;
-        const movieId = document.getElementById("movieId").value;
-        const hallId = document.getElementById("hallId").value;
-        const showDate = document.getElementById("showDate").value;
-        const showTime = document.getElementById("showTime").value;
+    const movieId = document.getElementById("imdbId").value;
 
-        // Create an object to represent the show data
-        const showData = {
-            showId: showId,
-            movieId: movieId,
-            hallId: hallId,
-            showDate: showDate,
-            showTime: showTime
-        };
+    // Create an object to represent the show data
+    const showData = {
+        imdbID: movieId, // Use the correct variable name
+    };
 
-        // You can also reset the form fields after successfully saving the show
-        document.getElementById("addShowForm").reset();
-        });
+    fetch(`http://localhost:2222/api/movies/${movieId}`, { // Use template literals
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(showData) // Use the correct object
+    })
+    .then(response => {
+        console.log("Response Status Code:", response.status); // Log the response status code
+        if (response.status === 200 || response.status === 201) {
+            return response.json(); // Success
+        } else {
+            throw new Error(`Registration failed with status code: ${response.status}`);
+        }
+    })
+    .then(data => {
+        // You can also reset the form fields after successfully adding the movie
+        document.getElementById("addMovieByImdbIdForm").reset();
+        // Handle any further actions with the response data if needed
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        // Handle error scenarios here, e.g., display an error message to the user
+    });
+});
+
     </script>
-
 
 
     <h2>Delete a Movie</h2>
