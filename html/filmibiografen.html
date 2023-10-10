@@ -123,6 +123,7 @@
                 <p>Actors: ${movie.actors}</p>
                 <p>IMDb ID: ${movie.imdbID}</p>
                 <p>Year: ${movie.year}</p>
+                <p>Trailer Link: <a href="${movie.trailerLink}" target="_blank">${movie.trailerLink}</a></p> <!-- Display trailer link -->
                 <button class="expand-button" onclick="toggleDetails('${movie.imdbID}')">Expand</button>
                 <div class="hidden-details">
                   <p class="plot">Plot: ${movie.plot}</p>
