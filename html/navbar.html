@@ -1,71 +1,92 @@
-<!-- navbar.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <!-- Add your CSS styles or link to a Bootstrap or other CSS framework -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-black">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Kino Biografen</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="index.html">Hjem</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="filmibiografen.html">Film i biografen</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="program.html">Program</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="ombiografen.html">Om biografen</a>
+                    </li>
+                    <!-- Add a new navbar item for "Admin" -->
+                    <li id="admin-nav-item" class="nav-item" style="display: none;">
+                        <a class="nav-link" href="admin.html">Admin</a>
+                    </li>
+                </ul>
+                <div class="login-section">
+                    <a href="login.html"><button id="login-button" class="btn btn-primary">Login</button></a>
+                    
+                    <button id="logout-button" class="btn btn-danger" style="display: none;">Logout</button>
+                 <!-- Rest of your JavaScript code here for login/logout buttons -->
+<script>
+  // Get a reference to the "Login" button
+  const loginButton = document.getElementById("login-button");
+
+  // Get a reference to the "Logout" button
+  const logoutButton = document.getElementById("logout-button");
+
+  // Check if a user is logged in by checking for a specific key in localStorage
+  if (localStorage.getItem("customerId") && localStorage.getItem("isAdmin") === "true") {
+      // User is logged in as an admin, show the "Logout" button and "Admin" navbar item
+      loginButton.style.display = "none";
+      logoutButton.style.display = "block";
+      const adminNavItem = document.getElementById("admin-nav-item");
+      adminNavItem.style.display = "block";
+  } else if (localStorage.getItem("customerId")) {
+      // User is logged in but not an admin, show only the "Logout" button
+      loginButton.style.display = "none";
+      logoutButton.style.display = "block";
+  }
+
+  // Add a click event listener to the "Login" button
+  loginButton.addEventListener("click", function() {
+      // Navigate to the login.html page
+      window.location.href = 'login.html'; // Replace with your actual path
+  });
+
+  // Add a click event listener to the "Logout" button
+  logoutButton.addEventListener("click", function() {
+      // Clear the user ID and isAdmin from localStorage to simulate a logout
+      localStorage.removeItem("customerId");
+      localStorage.removeItem("isAdmin");
+
+      // Hide the "Logout" button, "Admin" navbar item, and show the "Login" button
+      logoutButton.style.display = "none";
+      loginButton.style.display = "block";
+      const adminNavItem = document.getElementById("admin-nav-item");
+      adminNavItem.style.display = "none";
+
+      // Redirect to the appropriate page (e.g., login page)
+      window.location.href = 'index.html'; // Replace with your actual path
+  });
+</script>
 
 
-  <!-- Add your CSS styles or link to a Bootstrap or other CSS framework -->
-  <link rel="stylesheet" href="styles.css">
-  <!-- Bootstrap CSS -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  
-<nav class="navbar navbar-expand-lg navbar-dark bg-black">
-  <!-- Rest of your navbar content here -->
-
-    <div class="container-fluid">
-      <a class="navbar-brand" href="#">Kino Biografen</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="index.html">Hjem</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="filmibiografen.html">Film i biografen</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="program.html">Program</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link" href="ombiografen.html">Om biografen</a>
-          </li>
-        </ul>
-        <div class="login-section">
-          <a href="login.html"><button id="login-button" class="btn btn-primary">Login</button></a>
-          
-          <button id="logout-button" class="btn btn-danger" style="display: none;">Logout</button>
-          <script>
-            // Get a reference to the "Login" button
-            const loginButton = document.getElementById("login-button");
-          
-            // Get a reference to the "Logout" button
-            const logoutButton = document.getElementById("logout-button");
-          
-            // Check if a user is logged in by checking for a specific key in localStorage
-            if (localStorage.getItem("customerId")) {
-              // User is logged in, hide the "Login" button and show the "Logout" button
-              loginButton.style.display = "none";
-              logoutButton.style.display = "block";
-            }
-          
-            // Add a click event listener to the "Login" button
-            loginButton.addEventListener("click", function() {
-              // Navigate to the login.html page
-              window.location.href = 'login.html'; // Replace with your actual path
-            });
-          
-            // Add a click event listener to the "Logout" button
-            logoutButton.addEventListener("click", function() {
-              // Clear the user ID from localStorage to simulate a logout
-              localStorage.removeItem("customerId");
-              
-              // Hide the "Logout" button and show the "Login" button
-              logoutButton.style.display = "none";
-              loginButton.style.display = "block";
-            });
-          </script>
+                    
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  </nav>
+    </nav>
+</body>
+</html>
