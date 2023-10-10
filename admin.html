@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Admin Panel</title>
+</head>
+<body>
+    <h1>Movie Admin Panel</h1>
+
+    <!-- Form for adding a new movie -->
+    <h2>Add a Movie by IMDb ID</h2>
+    <form id="addMovieByImdbIdForm">
+        <input type="text" id="imdbId" placeholder="IMDb ID" required>
+        <button type="submit">Add Movie</button>
+    </form>>
+
+    <!-- Movie list -->
+    <h2>Movie List</h2>
+    <ul id="movieList">
+        <!-- Movies will be displayed here -->
+    </ul>
+
+    <h1>Add Show</h1>
+
+    <form id="addShowForm">
+        <!-- Input field for Show ID -->
+        <label for="showId">Show ID:</label>
+        <input type="text" id="showId" name="showId" required>
+
+        <!-- Dropdown menu for selecting a Movie -->
+        <label for="movieId">Select Movie:</label>
+        <select id="movieId" name="movieId" required>
+            <option value="1">Movie 1</option>
+            <option value="2">Movie 2</option>
+            <!-- Add more movie options as needed -->
+        </select>
+
+        <!-- Dropdown menu for selecting a Hall -->
+        <label for="hallId">Select Hall:</label>
+        <select id="hallId" name="hallId" required>
+            <option value="A">Hall A</option>
+            <option value="B">Hall B</option>
+            <!-- Add more hall options as needed -->
+        </select>
+
+        <!-- Input field for Show Date -->
+        <label for="showDate">Show Date:</label>
+        <input type="date" id="showDate" name="showDate" required>
+
+        <!-- Input field for Show Time -->
+        <label for="showTime">Show Time:</label>
+        <input type="time" id="showTime" name="showTime" required>
+
+        <button type="submit">Add Show</button>
+    </form>
+
+<!-- JavaScript for handling form submission -->
+<script>
+    document.getElementById("addShowForm").addEventListener("submit", function (e) {
+        e.preventDefault();
+
+        const showId = document.getElementById("showId").value;
+        const movieId = document.getElementById("movieId").value;
+        const hallId = document.getElementById("hallId").value;
+        const showDate = document.getElementById("showDate").value;
+        const showTime = document.getElementById("showTime").value;
+
+        // Create an object to represent the show data
+        const showData = {
+            showId: showId,
+            movieId: movieId,
+            hallId: hallId,
+            showDate: showDate,
+            showTime: showTime
+        };
+
+        // You can also reset the form fields after successfully saving the show
+        document.getElementById("addShowForm").reset();
+        });
+    </script>
+
+
+
+    <h2>Delete a Movie</h2>
+    <select id="deleteMovieSelect">
+        <option value="">Select a Movie to Delete</option>
+    </select>
+    <button id="deleteMovieButton">Delete Selected Movie</button>
+
+    <!-- JavaScript for handling movie operations -->
+    <script>
+        // Sample movie data
+        let movies = [];
+
+        // Function to display movies
+        function displayMovies() {
+            const movieList = document.getElementById("movieList");
+            movieList.innerHTML = "";
+            movies.forEach((movie, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `<b>${movie.title}</b> (Director: ${movie.director}) 
+                                <button onclick="editMovie(${index})">Edit</button> 
+                                <button onclick="deleteMovie(${index})">Delete</button>`;
+                movieList.appendChild(li);
+            });
+        }
+
+        // Function to add a new movie
+        document.getElementById("addMovieForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const title = document.getElementById("movieTitle").value;
+            const director = document.getElementById("movieDirector").value;
+            if (title && director) {
+                movies.push({ title, director });
+                displayMovies();
+                document.getElementById("movieTitle").value = "";
+                document.getElementById("movieDirector").value = "";
+            }
+        });
+
+        // Function to delete a movie
+        function deleteMovie(index) {
+            if (confirm("Are you sure you want to delete this movie?")) {
+                movies.splice(index, 1);
+                displayMovies();
+            }
+        }
+
+        // Function to edit a movie
+        function editMovie(index) {
+            const newTitle = prompt("Enter new title:");
+            const newDirector = prompt("Enter new director:");
+            if (newTitle && newDirector) {
+                movies[index].title = newTitle;
+                movies[index].director = newDirector;
+                displayMovies();
+            }
+        }
+
+        // Initial display of movies
+        displayMovies();
+    </script>
+</body>
+</html>
