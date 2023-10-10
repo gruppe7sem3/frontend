@@ -3,7 +3,7 @@ body {
   margin: 0;
   padding: 0;
   font-family: Arial, sans-serif;
-  background-color: #f2f2f2;
+  background-color: #ffffff;
 }
 
 /* Style the hero section */
@@ -62,10 +62,6 @@ body {
 .navbar .nav-item.active .nav-link {
   background-color: #007bff; /* Change the background color of the active link */
   color:black/* Change the text color of the active link */
-<<<<<<< HEAD
-}
-=======
-}
 
 
 /* Centered text for unordered list */
@@ -77,4 +73,3 @@ ul {
 li {
   text-align: left;
 }
->>>>>>> b546a999235f4876f7e80b0d869549b449ee9a0b
