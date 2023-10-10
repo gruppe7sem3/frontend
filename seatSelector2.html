@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <title>Theater Seat Booking</title>
+   <style>
+       /* Add your CSS styling for seats here */
+       .seat-container {
+           display: grid;
+           grid-template-columns: repeat(20, 30px); /* Adjust seat size and columns as needed */
+           gap: 5px;
+           justify-content: center;
+       }
+
+
+
+
+       .seat {
+           width: 30px;
+           height: 30px;
+           background-color: #ccc;
+           border: 1px solid #999;
+           display: flex;
+           align-items: center;
+           justify-content: center;
+           cursor: pointer;
+           font-weight: bold;
+           transition: background-color 0.3s ease-in-out;
+       }
+
+
+
+
+       .selected {
+           background-color: #ff8f00; /* Selected seat color */
+           color: #fff;
+       }
+
+
+
+
+       .booked {
+           cursor: not-allowed;
+           background-color: green; /* Set the background color for booked seats to green */
+       }
+
+
+
+
+       /* Center align the seat numbers */
+       .seat-number {
+           position: absolute;
+           transform: translate(-50%, -50%);
+       }
+
+
+
+
+       #seat-container {
+           text-align: center;
+           margin: auto;
+       }
+
+
+
+
+       .legend {
+           display: flex;
+           justify-content: center;
+           align-items: center;
+           margin-top: 10px; /* Adjust the top margin as needed */
+       }
+
+
+
+
+       .legend-item {
+           display: flex;
+           align-items: center;
+           margin-right: 20px;
+       }
+
+
+
+
+       .legend-color {
+           width: 20px;
+           height: 20px;
+           margin-right: 5px;
+       }
+   </style>
+</head>
+<body style="background-color: black; color: white;">
+
+
+
+
+   <!-- Navbar placeholder -->
+ <div id="navbar-placeholder"></div>
+
+
+
+
+ <!-- Your page content -->
+ <div id="home-content" class="container mt-4">
+   <!-- Include jQuery (you may need to download it or use a CDN) -->
+   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+   <!-- Load the navbar using jQuery -->
+   <script>
+     $(function() {
+       $('#navbar-placeholder').load('navbar.html');
+     });
+   </script>
+
+
+
+
+   <h1>Theater Seat Booking</h1>
+
+
+
+
+   <!-- Div for seat selection interface -->
+   <div id="seat-selection">
+       <div id="seat-container" class="seat-container">
+           <!-- Your seats will be dynamically generated here using JavaScript -->
+       </div>
+       <p>Selected Seats: <span id="selected-seats">0</span></p>
+       <p id="click-message"></p> <!-- Display the click message here -->
+   </div>
+
+
+
+
+   <!-- "Book" button initially hidden -->
+   <button id="book-btn" style="display: none;">Book</button>
+
+
+
+
+   <div id="customer-login" style="display: none;">
+       <form>
+           <label for="customerId">Customer ID:</label>
+           <input type="text" id="customerIdnumb" name="customerId" required><br>
+ 
+           <!-- "Confirm Booking" button -->
+           <button type="button" id="confirm-booking-btn">Confirm Booking</button>
+       </form>
+   </div>
+   <!-- Legend explaining seat colors -->
+   <div class="legend">
+       <div class="legend-item">
+           <div class="legend-color booked"></div>
+           <span>Booked Seat</span>
+       </div>
+       <div class="legend-item">
+           <div class="legend-color selected"></div>
+           <span>Selected Seat</span>
+       </div>
+   </div>
+
+
+
+
+   <script>
+       // Define the number of rows and seats per row
+       const numRows = 12;
+       const seatsPerRow = 20;
+
+
+
+
+       const seatContainer = document.getElementById("seat-container");
+       const selectedSeatsCount = document.getElementById("selected-seats");
+       const bookButton = document.getElementById("book-btn");
+       const clickMessage = document.getElementById("click-message");
+       const customerLogin = document.getElementById("customer-login");
+       const confirmBookingButton = document.getElementById("confirm-booking-btn");
+
+
+
+
+       let selectedSeats = [];
+
+
+
+
+       // Function to fetch booking information for a specific show
+       async function fetchBookingsForShow(showId) {
+           try {
+               const response = await fetch(`http://localhost:2222/api/bookings/seatIdsForShow/${showId}`);
+               if (!response.ok) {
+                   throw new Error("Failed to fetch booking information");
+               }
+               const seatIds = await response.json();
+               return seatIds;
+           } catch (error) {
+               console.error(error);
+               return [];
+           }
+       }
+
+
+
+
+       // Function to extract URL parameters
+       function getUrlParameter(name) {
+           const urlParams = new URLSearchParams(window.location.search);
+           return urlParams.get(name);
+       }
+
+
+
+
+       // Wrap the code in an async function
+       async function initializeSeats() {
+           // Extract the showId from the URL parameters
+           const showId = getUrlParameter("showId");
+
+
+
+
+           // Fetch booking information for the selected show
+           const bookedSeatIds = await fetchBookingsForShow(showId);
+
+
+
+
+           let seatIdCounter = 501; // Initialize the seat ID counter
+
+
+
+
+           // Create the theater seats dynamically
+           for (let row = 1; row <= numRows; row++) {
+               for (let seat = 1; seat <= seatsPerRow; seat++) {
+                   const seatElement = document.createElement("div");
+                   seatElement.classList.add("seat");
+                   seatElement.dataset.row = row;
+                   seatElement.dataset.column = seat; // Assign column number
+                   seatElement.dataset.seatId = seatIdCounter; // Assign seat ID
+                   seatElement.id = `seat-${row}-${seatIdCounter}`; // Assign unique ID
+                   seatContainer.appendChild(seatElement);
+
+
+
+
+                   const seatNumberElement = document.createElement("span");
+                   seatNumberElement.classList.add("seat-number");
+                   seatElement.appendChild(seatNumberElement);
+
+
+
+
+                   // Check if the seat is booked for the show and add the "booked" class
+                   if (bookedSeatIds.includes(seatIdCounter)) {
+                       seatElement.classList.add("booked");
+                   }
+
+
+
+
+                   seatIdCounter++; // Increment seat ID counter
+               }
+           }
+
+
+
+
+           // Add event listener to seats
+           const seats = document.querySelectorAll(".seat");
+           seats.forEach((seat) => {
+               seat.addEventListener("click", () => {
+                   if (!seat.classList.contains("booked")) {
+                       seat.classList.toggle("selected");
+                       updateSelectedSeats();
+                       showClickMessage(seat.dataset.row, seat.dataset.column);
+                   }
+               });
+           });
+       }
+
+
+
+
+       // Call the async function to initialize seats
+       initializeSeats();
+
+
+
+
+       // Update the selected seats count
+       function updateSelectedSeats() {
+           selectedSeats = document.querySelectorAll(".seat.selected");
+           selectedSeatsCount.textContent = selectedSeats.length;
+
+
+
+
+           // Show the "Book" button when seats are selected
+           if (selectedSeats.length > 0) {
+               bookButton.style.display = "block";
+           } else {
+               bookButton.style.display = "none";
+           }
+       }
+
+
+
+
+       // Show click message with row and column numbers
+       function showClickMessage(row, column) {
+           clickMessage.textContent = `You clicked on seat in Row ${row}, Column ${column}`;
+       }
+
+
+
+
+       // Event listener for the "Book" button
+       bookButton.addEventListener("click", () => {
+           // Show the customer login form
+           customerLogin.style.display = "block";
+       });
+       document.addEventListener("DOMContentLoaded", function () {
+   // Get the input element by ID
+   const customerIdInput = document.getElementById('customerIdnumb');
+   const customerIdStorage = localStorage.getItem('customerId');
+
+
+
+
+   // Set the default value
+   customerIdInput.value = customerIdStorage
+});
+
+
+
+
+       // Event listener for the "Confirm Booking" button
+      // Event listener for the "Confirm Booking" button
+confirmBookingButton.addEventListener("click", async () => {
+   const customerId = document.getElementById("customerIdnumb").value;
+
+
+
+
+   // Check if the customer ID is provided
+   if (!customerId) {
+       alert("Please provide a customer ID.");
+       return;
+   }
+
+
+
+
+   // Create a booking for each selected seat
+   for (const selectedSeat of selectedSeats) {
+       const seatId = selectedSeat.dataset.seatId;
+
+
+
+
+       // Create the booking request object for the current seat
+       const bookingRequest = {
+           seatId: seatId,
+           showId: getUrlParameter("showId"),
+           customerId: customerId // Use the customerId obtained from the input field
+       };
+
+
+
+
+       // Send a POST request to create a booking
+       try {
+           const response = await fetch("http://localhost:2222/api/bookings/add", {
+               method: "POST",
+               headers: {
+                   "Content-Type": "application/json",
+               },
+               body: JSON.stringify(bookingRequest),
+           });
+
+
+
+
+           if (!response.ok) {
+               console.error(`Failed to create booking for seat ${seatId}`);
+           } else {
+               console.log(`Booking created successfully for seat ${seatId}`);
+           }
+       } catch (error) {
+           console.error(`Failed to create booking for seat ${seatId}`, error);
+       }
+   }
+
+
+
+
+   // Reset the selected seats
+   selectedSeats.forEach((selectedSeat) => {
+       selectedSeat.classList.remove("selected");
+   });
+   selectedSeats = [];
+   updateSelectedSeats();
+
+
+
+
+   // Hide the customer login form
+   customerLogin.style.display = "none";
+
+
+
+
+   // Booking created successfully, you can handle the response here if needed
+   alert("Bookings created successfully!");
+   location.reload();
+});
+
+
+
+
+   </script>
+</body>
+</html>

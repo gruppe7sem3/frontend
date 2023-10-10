@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Admin Panel</title>
+</head>
+<body>
+    <h1>Movie Admin Panel</h1>
+
+    <!-- Form for adding a new movie -->
+    <h2>Add a Movie by IMDb ID</h2>
+    <form id="addMovieByImdbIdForm">
+        <input type="text" id="imdbId" placeholder="IMDb ID" required>
+        <button type="submit">Add Movie</button>
+    </form>>
+
+    <!-- Movie list -->
+    <h2>Movie List</h2>
+    <ul id="movieList">
+        <!-- Movies will be displayed here -->
+    </ul>
+
+    <h1>Add Show</h1>
+
+
+<!-- JavaScript for handling form submission -->
+<script>
+   document.getElementById("addMovieByImdbIdForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+
+    const movieId = document.getElementById("imdbId").value;
+
+    // Create an object to represent the show data
+    const showData = {
+        imdbID: movieId, // Use the correct variable name
+    };
+
+    fetch(`http://localhost:2222/api/movies/${movieId}`, { // Use template literals
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(showData) // Use the correct object
+    })
+    .then(response => {
+        console.log("Response Status Code:", response.status); // Log the response status code
+        if (response.status === 200 || response.status === 201) {
+            return response.json(); // Success
+        } else {
+            throw new Error(`Registration failed with status code: ${response.status}`);
+        }
+    })
+    .then(data => {
+        // You can also reset the form fields after successfully adding the movie
+        document.getElementById("addMovieByImdbIdForm").reset();
+        // Handle any further actions with the response data if needed
+    })
+    .catch(error => {
+        console.error("Error:", error);
+        // Handle error scenarios here, e.g., display an error message to the user
+    });
+});
+
+    </script>
+
+
+    <h2>Delete a Movie</h2>
+    <select id="deleteMovieSelect">
+        <option value="">Select a Movie to Delete</option>
+    </select>
+    <button id="deleteMovieButton">Delete Selected Movie</button>
+
+    <!-- JavaScript for handling movie operations -->
+    <script>
+        // Sample movie data
+        let movies = [];
+
+        // Function to display movies
+        function displayMovies() {
+            const movieList = document.getElementById("movieList");
+            movieList.innerHTML = "";
+            movies.forEach((movie, index) => {
+                const li = document.createElement("li");
+                li.innerHTML = `<b>${movie.title}</b> (Director: ${movie.director}) 
+                                <button onclick="editMovie(${index})">Edit</button> 
+                                <button onclick="deleteMovie(${index})">Delete</button>`;
+                movieList.appendChild(li);
+            });
+        }
+
+        // Function to add a new movie
+        document.getElementById("addMovieForm").addEventListener("submit", function (e) {
+            e.preventDefault();
+            const title = document.getElementById("movieTitle").value;
+            const director = document.getElementById("movieDirector").value;
+            if (title && director) {
+                movies.push({ title, director });
+                displayMovies();
+                document.getElementById("movieTitle").value = "";
+                document.getElementById("movieDirector").value = "";
+            }
+        });
+
+        // Function to delete a movie
+        function deleteMovie(index) {
+            if (confirm("Are you sure you want to delete this movie?")) {
+                movies.splice(index, 1);
+                displayMovies();
+            }
+        }
+
+        // Function to edit a movie
+        function editMovie(index) {
+            const newTitle = prompt("Enter new title:");
+            const newDirector = prompt("Enter new director:");
+            if (newTitle && newDirector) {
+                movies[index].title = newTitle;
+                movies[index].director = newDirector;
+                displayMovies();
+            }
+        }
+
+        // Initial display of movies
+        displayMovies();
+    </script>
+</body>
+</html>
