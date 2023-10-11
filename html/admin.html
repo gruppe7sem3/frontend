@@ -5,88 +5,77 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Admin Panel</title>
      <!-- Bootstrap CSS -->
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
- <!-- Bootstrap JS -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
- <link rel="stylesheet" href="html/css/admin.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <link rel="stylesheet" href="html/css/admin.css">
 </head>
 <body>
-
-     <!-- Placeholder for the navbar -->
- <div id="navbar-placeholder"></div>
+    <!-- Placeholder for the navbar -->
+    <div id="navbar-placeholder"></div>
 
     <h1>Movie Admin Panel</h1>
 
-<!-- Form for adding a new movie -->
-<h2>Add a Movie by IMDb ID</h2>
-<form id="addMovieByImdbIdForm">
-    <input type="text" id="imdbId" placeholder="IMDb ID" required>
-    <input type="text" id="trailerLink" placeholder="Trailer Link" required>
-    <button type="submit">Add Movie</button>
-</form>
+    <!-- Form for adding a new movie -->
+    <h2>Add a Movie by IMDb ID</h2>
+    <form id="movieForm">
+        <label for="imdbId">IMDB ID:</label>
+        <input type="text" id="imdbId" name="imdbId"><br>
+        <label for="trailerLink">Trailer Link:</label>
+        <input type="text" id="trailerLink" name="trailerLink"><br>
+        <button type="submit">Add Movie</button>
+    </form>
 
-<script>
+    <div id="response"></div>
 
-function deleteMovie(index) {
-    if (confirm("Are you sure you want to delete this movie?")) {
-        var imdbId = movies[index].imdbID;
-        $.ajax({
-            type: "POST",
-            url: "/delete-movie",
-            data: { imdbId: imdbId },
-            success: function (response) {
-                // Handle the success response, e.g., display a message to the user
-                alert(response);
-                // Update the movies array and UI
-                movies.splice(index, 1);
-                displayMovies();
-            },
-            error: function (error) {
-                // Handle errors, e.g., display an error message to the user
-                alert("Failed to delete movie");
-            }
+    <hr>
+
+    <!-- Button for deleting a movie -->
+    <h2>Delete Movie by IMDb ID</h2>
+    <label for="deleteImdbId">IMDb ID:</label>
+    <input type="text" id="deleteImdbId" required>
+    <button id="deleteMovieButton">Delete Movie</button>
+
+    <div id="deleteResponse"></div>
+
+    <script>
+       document.getElementById('movieForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const imdbId = document.getElementById('imdbId').value;
+            const trailerLink = document.getElementById('trailerLink').value;
+            
+            fetch('http://localhost:2222/api/movies', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+                body: `imdbId=${imdbId}&trailerLink=${encodeURIComponent(trailerLink)}`,
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById('response').textContent = `Movie added: ${data.title}`;
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('response').textContent = 'An error occurred while adding the movie.';
+            });
         });
-    }
-}
 
-
-document.getElementById("addMovieByImdbIdForm").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const movieId = document.getElementById("imdbId").value;
-    const trailerLink = document.getElementById("trailerLink").value;
-
-    // Create an object to represent the movie data
-    const movieData = {
-        imdbID: movieId,
-        trailerLink: trailerLink, // Include the trailer link in the movie data
-    };
-
-    fetch(`http://localhost:2222/api/movies/${movieId}`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(movieData)
-    })
-    .then(response => {
-        console.log("Response Status Code:", response.status);
-        if (response.status === 200 || response.status === 201) {
-            return response.json();
-        } else {
-            throw new Error(`Registration failed with status code: ${response.status}`);
-        }
-    })
-    .then(data => {
-        document.getElementById("addMovieByImdbIdForm").reset();
-        // Handle any further actions with the response data if needed
-    })
-    .catch(error => {
-        console.error("Error:", error);
-        // Handle error scenarios here, e.g., display an error message to the user
-    });
-});
-</script>
-
+        // Delete Movie functionality
+        document.getElementById("deleteMovieButton").addEventListener("click", function () {
+            const deleteImdbId = document.getElementById("deleteImdbId").value;
+            // Send a DELETE request to your Spring Boot API to delete the movie
+            fetch(`http://localhost:2222/api/movies/${deleteImdbId}`, {
+                method: 'DELETE'
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("deleteResponse").textContent = `Movie deleted: ${JSON.stringify(data)}`;
+            })
+            .catch(error => {
+                document.getElementById("deleteResponse").textContent = `Error: ${error.message}`;
+            });
+        });
+    </script>
 </body>
 </html>
