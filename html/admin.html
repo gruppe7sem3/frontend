@@ -62,6 +62,22 @@
     <div id="showResponse"></div>
 
     <script>
+        // Get the datetime-local input element
+        const showDateTimeInput = document.getElementById("showDateTime");
+
+        // Add an event listener to prevent past dates
+        showDateTimeInput.addEventListener("input", function () {
+            const selectedDate = new Date(this.value);
+            const currentDate = new Date();
+            
+            if (selectedDate < currentDate) {
+                alert("You cannot choose a past date or time.");
+                this.value = ""; // Clear the input field
+            }
+        });
+    </script>
+
+    <script>
         async function fetchMovieNames() {
             const url = 'http://localhost:2222/api/movies/all'; // Replace with the actual URL for fetching movie names
 
@@ -191,5 +207,43 @@
 
 
     </script>
+
+<h1>Delete Show</h1>
+<form id="deleteForm">
+    <label for="showId">Show ID: </label>
+    <input type="text" id="showId" name="showId" required>
+    <button type="submit">Delete Show</button>
+</form>
+<div id="result"></div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteForm = document.getElementById('deleteForm');
+        const showIdInput = document.getElementById('showId');
+        const resultDiv = document.getElementById('result');
+
+        deleteForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            const showId = showIdInput.value;
+
+            fetch(`http://localhost:2222/shows/delete/${showId}`, {
+                method: 'DELETE'
+            })
+            .then(response => {
+                if (response.ok) {
+                    return response.text();
+                } else {
+                    throw new Error('Show not found or could not be deleted.');
+                }
+            })
+            .then(data => {
+                resultDiv.textContent = data;
+            })
+            .catch(error => {
+                resultDiv.textContent = error.message;
+            });
+        });
+    });
+</script>
 </body>
 </html>
