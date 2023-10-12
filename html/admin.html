@@ -90,21 +90,27 @@
             });
         });
 
-        // Delete Movie functionality
         document.getElementById("deleteMovieButton").addEventListener("click", function () {
             const deleteImdbId = document.getElementById("deleteImdbId").value;
-            // Send a DELETE request to your Spring Boot API to delete the movie
-            fetch(`http://localhost:2222/api/movies/${deleteImdbId}`, {
+            fetch(`http://localhost:2222/api/movies/delete/${deleteImdbId}`, {
                 method: 'DELETE'
             })
-            .then(response => response.json())
+            .then(response => {
+                if (response.status === 200) {
+                    return response.text(); // Assuming the response is plain text
+                } else {
+                    throw new Error(`Failed to delete movie (Status: ${response.status})`);
+                }
+            })
             .then(data => {
-                document.getElementById("deleteResponse").textContent = `Movie deleted: ${JSON.stringify(data)}`;
+                document.getElementById("deleteResponse").textContent = `Movie deleted: ${data}`;
             })
             .catch(error => {
                 document.getElementById("deleteResponse").textContent = `Error: ${error.message}`;
             });
-        });
+});
+
+
     </script>
 </body>
 </html>
