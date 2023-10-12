@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Admin Panel</title>
-     <!-- Bootstrap CSS -->
+    <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <!-- Bootstrap JS -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
@@ -30,8 +30,6 @@
 
     <hr>
 
-    
-
     <!-- Button for deleting a movie -->
     <h2>Delete Movie by IMDb ID</h2>
     <label for="deleteImdbId">IMDb ID:</label>
@@ -40,39 +38,120 @@
 
     <div id="deleteResponse"></div>
 
-    <h2>Add a Show </h2>
-<form id="addMovieByImdbIdForm">
-    <label for="hallId">Sal</label>
-    <select id="hallId" required>
-        <option value="1">1</option>
-        <option value="2">2</option>
-    </select>
-    
-    
-    <input type="dropdown" id="movieId" placeholder="Indtast film ID" required>
-    <input type="datetime" id="startTid" placeholder="indtast start tid" required>
-    <input type="date" id="dato" required>
-    <button type="submit">Add Show</button>
-</form>
+    <h2>Add a Show</h2>
+    <form id="addShowForm">
+        <label for="hallId">Sal:</label>
+        <select id="hallId" name="hall_id.hallId" required>
+            <option value="1">1</option>
+            <option value="2">2</option>
+        </select>
 
+        <select id="movieSelect" name="movieId" required>
+            <option value="" disabled selected>Select a movie</option>
+        </select>
 
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const today = new Date().toISOString().split("T")[0];
-        document.getElementById("dato").min = today;
-        
-        document.getElementById("dato").addEventListener("click", function() {
-            this.min = today;
+        <label for="showDateTime">Visningstidspunkt:</label>
+        <input type="datetime-local" id="showDateTime" required>
+
+        <!-- Add a hidden input for show_date -->
+        <input type="hidden" id="showDate" name="show_date">
+
+        <button type="submit">Add Show</button>
+    </form>
+
+    <div id="showResponse"></div>
+
+    <script>
+        async function fetchMovieNames() {
+            const url = 'http://localhost:2222/api/movies/all'; // Replace with the actual URL for fetching movie names
+
+            try {
+                const response = await fetch(url);
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                const movieSelect = document.getElementById('movieSelect');
+
+                // Clear existing options in case of re-fetching
+                movieSelect.innerHTML = '<option value="" disabled selected>Select a movie</option>';
+
+                data.forEach(movie => {
+                    const option = document.createElement('option');
+                    option.value = movie.id; // Use the movie's unique identifier (id) as the option value
+                    option.textContent = movie.title; // Display the movie title in the dropdown
+                    movieSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Error fetching movie names:', error);
+            }
+        }
+
+        // Call the fetchMovieNames function to populate the dropdown when the page loads.
+        fetchMovieNames();
+    </script>
+
+    <div id="showResponseDiv"></div>
+
+    <script>
+        // Handle the response for the "Add Show" form
+        document.getElementById('addShowForm').addEventListener('submit', async function (event) {
+            event.preventDefault();
+
+            console.log('Form submitted');
+
+            const hallId = document.getElementById('hallId').value;
+            const movieId = document.getElementById('movieSelect').value;
+            const showDateTime = document.getElementById('showDateTime').value;
+
+            console.log('hallId:', hallId);
+            console.log('movieId:', movieId);
+            console.log('showDateTime:', showDateTime);
+
+            // Extract the date part from the datetime field
+            const showDate = showDateTime.split("T")[0];
+
+            console.log('showDate:', showDate);
+
+            const showData = {
+                "hall_id": { "hallId": hallId },
+                "movie_id": { "id": movieId },
+                "show_time": showDateTime,
+                "show_date": showDate
+            };
+
+            try {
+                const response = await fetch('http://localhost:2222/shows/add', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(showData)
+                });
+
+                console.log('Response received');
+
+                if (response.ok) {
+                    const data = await response.json();
+                    console.log('Show added successfully');
+                    document.getElementById('showResponseDiv').innerHTML = 'Show added successfully!';
+                    document.getElementById('addShowForm').reset();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                document.getElementById('showResponseDiv').innerHTML = 'Error adding the show.';
+            }
         });
-    });
     </script>
 
     <script>
-       document.getElementById('movieForm').addEventListener('submit', function(event) {
+        document.getElementById('movieForm').addEventListener('submit', function(event) {
             event.preventDefault();
             const imdbId = document.getElementById('imdbId').value;
             const trailerLink = document.getElementById('trailerLink').value;
-            
+
             fetch('http://localhost:2222/api/movies', {
                 method: 'POST',
                 headers: {
