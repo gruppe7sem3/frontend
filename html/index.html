@@ -5,39 +5,39 @@
  <meta name="viewport" content="width=device-width, initial-scale=1.0">
  <title>Kino Biografen</title>
  <!-- Bootstrap CSS -->
- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
+
  <!-- Bootstrap JS -->
- <script src="https://cdn.jsdelivr.net/npm/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
- <link rel="stylesheet" href="styles.css">
  <style>
   
+  .title-container {
+            background-color: transparent; /* Transparent background */
+            color: #ffffff; /* White text color for contrast */
+            text-align: center;
+            font-family: 'Arial', sans-serif; /* Choose a legible font */
+            font-size: 48px; /* Larger font size */
+            font-weight: bold;
+            padding: 30px 0;
+        }
 
+        .show-times {
+    list-style: none;
+    padding: 0;
+}
 
+/* Styling for individual show time items (boxes) */
+.show-times li {
+    /* Background color for the boxes */
+    color: #fff; /* Text color */
+    font-size: 18px;
+    border: 2px solid #2980b9; /* Border for the boxes */
+    padding: 10px 20px;
+    margin: 10px 0; /* Add vertical margin to separate the boxes */
+    border-radius: 8px; /* Rounded corners for a nice look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    text-align: center;
+}
 
-
-   .container-black {
-     position: relative; /* Ensure relative positioning for absolute children */
-   }
- 
-   .slideshow-container {
-     position: relative; /* Ensure relative positioning */
-     text-align: center;
-   }
- 
-   .text-over-slideshow {
-     position: absolute; /* Position absolute for overlay */
-     top: 50%; /* Adjust the top position as needed */
-     left: 50%; /* Adjust the left position as needed */
-     transform: translate(-50%, -50%); /* Center the text */
-     z-index: 2; /* Ensure text is above the slideshow */
-     text-align: center; /* Optional: Center-align text */
-     background: rgba(0, 0, 0, 0.5); /* Optional: Add a semi-transparent background */
-     padding: 20px; /* Optional: Add padding to the text */
-   }
-
-
-
-
+  
    /* Style for movie cards */
    .movie-card {
      background-color: #222;
@@ -77,24 +77,43 @@
    .show-time-item {
      margin: 5px 0;
    }
+   .head-container{
+    color: #ffffff;
+    text-align: center;
+    margin: 20px 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(90deg, white 50%, #3498db 50%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+   
  </style>
 </head>
-<body>
+<body style="background-color: black;">
  <!-- Placeholder for the navbar -->
  <div id="navbar-placeholder"></div>
 
+ 
+ <div class="title-container">
+  <h1 style="background: linear-gradient(90deg, white 50%, #3498db 50%); -webkit-background-clip: text; background-clip: text; color: transparent;">Kino XP</h1>
+  <p style="background: linear-gradient(90deg, white 50%, #3498db 50%); -webkit-background-clip: text; background-clip: text; color: transparent;">Nordens bedste biograf</p>
+</div>
 
-
-
-
-
-
-
+<div class="head-container">
+  <h2>Program</h2>
+</div>
 
 
  <!-- Movie Schedule -->
+ 
  <div class="container my-5" id="movie-container">
-   <h1>Program</h1>
    <div class="row" id="movie-cards">
      <!-- Movie Cards will be generated here -->
    </div>

@@ -75,14 +75,31 @@
       cursor: pointer;
       margin-top: 10px;
     }
+
+    .head-container{
+    color: #ffffff;
+    text-align: center;
+    margin: 20px 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(90deg, white 50%, #3498db 50%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
   </style>
 </head>
 <body style="background-color: black;">
   <!-- Placeholder for the navbar -->
   <div id="navbar-placeholder"></div>
 
-  <h1>Movie Details</h1>
-
+  <div class="head-container">
+    <h2>Movie Details</h2>
+  </div>
   <!-- Container to display all movies -->
   <div id="allMovies"></div>
 
