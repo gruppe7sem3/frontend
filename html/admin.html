@@ -66,7 +66,7 @@
             margin: 20px;
         }
     </style>
-</style>
+
 </head>
 <body>
     
@@ -80,16 +80,16 @@
         });
       </script>
 
-    <h1>Movie Admin Panel</h1>
+    <h1>Admin side</h1>
 
     <!-- Form for adding a new movie -->
-    <h2>Add a Movie by IMDb ID</h2>
+    <h2>Tilføj en film med IMDB ID</h2>
     <form id="movieForm">
         <label for="imdbId">IMDB ID:</label>
         <input type="text" id="imdbId" name="imdbId"><br>
         <label for="trailerLink">Trailer Link:</label>
         <input type="text" id="trailerLink" name="trailerLink"><br>
-        <button type="submit">Add Movie</button>
+        <button type="submit">Tilføj film</button>
     </form>
 
     <div id="response"></div>
@@ -97,14 +97,14 @@
     <hr>
 
     <!-- Button for deleting a movie -->
-    <h2>Delete Movie by IMDb ID</h2>
+    <h2>Slet en film med IMDb ID</h2>
     <label for="deleteImdbId">IMDb ID:</label>
     <input type="text" id="deleteImdbId" required>
     <button id="deleteMovieButton">Delete Movie</button>
 
     <div id="deleteResponse"></div>
 
-    <h2>Add a Show</h2>
+    <h2>Tilføj et show</h2>
     <form id="addShowForm">
         <label for="hallId">Sal:</label>
         <select id="hallId" name="hall_id.hallId" required>
@@ -113,7 +113,7 @@
         </select>
 
         <select id="movieSelect" name="movieId" required>
-            <option value="" disabled selected>Select a movie</option>
+            <option value="" disabled selected>Vælg en film</option>
         </select>
 
         <label for="showDateTime">Visningstidspunkt:</label>
@@ -122,7 +122,7 @@
         <!-- Add a hidden input for show_date -->
         <input type="hidden" id="showDate" name="show_date">
 
-        <button type="submit">Add Show</button>
+        <button type="submit">Tilføj show</button>
     </form>
 
     <div id="showResponse"></div>
