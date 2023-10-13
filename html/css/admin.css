@@ -7,6 +7,8 @@ body {
 }
 h1 {
     text-align: center;
+    background-color: #dfc6c2;
+    color: #ffffff;
     padding: 20px;
 }
 h2 {
