@@ -66,11 +66,6 @@ button:hover {
     font-weight: bold;
   }
 
-  .admin {
-    background-color: #000;
-    margin: 0; /* Add this line to remove margin */
-    padding: 0; /* Add this line to remove padding */
-}
 /* Style for the "movie-form" section */
 .movie-form {
     background-color: #04010192;
@@ -81,17 +76,8 @@ button:hover {
     border: 1px solid #007bff; /* Add border style */
 }
 
-/* Style for the "delete-movie" section */
-.delete-movie {
-    background-color: #12020280;
-    color: #fff;
-}
 
-/* Style for the "add-show" section */
-.add-show {
-    background-color: #000;
-    color: #ffffff;
-}
+
 
 /* Style for buttons */
 button {
