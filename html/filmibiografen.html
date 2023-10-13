@@ -66,7 +66,7 @@
       display: none; /* Initially hide the additional details */
     }
 
-    .expand-button {
+    .udvid-button {
       background-color: #007bff;
       color: #fff;
       border: none;
@@ -141,7 +141,7 @@
                 <p>IMDb ID: ${movie.imdbID}</p>
                 <p>Year: ${movie.year}</p>
                 <p>Trailer Link: <a href="${movie.trailerLink}" target="_blank">${movie.trailerLink}</a></p> <!-- Display trailer link -->
-                <button class="expand-button" onclick="toggleDetails('${movie.imdbID}')">Expand</button>
+                <button class="udvid-button" onclick="toggleDetails('${movie.imdbID}')">Udvid</button>
                 <div class="hidden-details">
                   <p class="plot">Plot: ${movie.plot}</p>
                   <p>Rated: ${movie.rated}</p>
@@ -165,14 +165,14 @@
   function toggleDetails(movieId) {
     const hiddenDetails = document.getElementById(movieId).querySelector('.hidden-details');
     const plot = hiddenDetails.querySelector('.plot');
-    const button = document.getElementById(movieId).querySelector('.expand-button');
+    const button = document.getElementById(movieId).querySelector('.udvid-button');
     if (hiddenDetails.style.display === 'none' || hiddenDetails.style.display === '') {
       hiddenDetails.style.display = 'block';
       button.textContent = 'Collapse';
       plot.style.display = 'block'; // Show the plot
     } else {
       hiddenDetails.style.display = 'none';
-      button.textContent = 'Expand';
+      button.textContent = 'Udvid';
       plot.style.display = 'none'; // Hide the plot
     }
   }
