@@ -31,7 +31,7 @@ select {
     padding: 10px;
     margin: 5px 0;
     border: none;
-    background-color: #222;
+    background-color: #ffffff;
     color: rgb(0, 0, 0);
 }
 button {
@@ -68,27 +68,27 @@ hr {
     font-weight: bold;
   }
 
-  /* Style for the "admin" section */
-.admin {
+  .admin {
     background-color: #000;
+    margin: 0; /* Add this line to remove margin */
+    padding: 0; /* Add this line to remove padding */
 }
-
 /* Style for the "movie-form" section */
 .movie-form {
-    background-color: #000;
+    background-color: #04010192;
     color: #fff;
 }
 
 /* Style for the "delete-movie" section */
 .delete-movie {
-    background-color: #000;
+    background-color: #12020280;
     color: #fff;
 }
 
 /* Style for the "add-show" section */
 .add-show {
     background-color: #000;
-    color: #fff;
+    color: #2a1515;
 }
 
 /* Style for buttons */
@@ -111,5 +111,68 @@ label {
 }
 
 
+.movie-form, .delete-movie, .add-show {
+    margin: 0;
+    padding: 0;
+}
 
+/* Style for the "delete-show" section */
+.delete-show {
+    background-color: #12020280;
+    color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+}
 
+/* Style for the "Slet et show" h2 header */
+.delete-show h2 {
+    color: #fff;
+}
+
+/* Style for labels */
+.delete-show label {
+    display: block;
+    color: #fff;
+    margin: 10px 0;
+}
+
+/* Style for input fields */
+.delete-show input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border: none;
+    background-color: #222;
+    color: #fff;
+}
+
+/* Style for the "Slet show" button */
+.delete-show button[type="submit"] {
+    background-color: #2240c6;
+    color: #fff;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-show button[type="submit"]:hover {
+    background-color: #002fd9;
+}
+
+/* Style for the response div */
+.delete-show #deleteShowResponse {
+    margin: 20px;
+    color: #fff;
+}
+
+/* Style for the "add-show" section */
+.add-show {
+    background-color: #0000009e;
+    color: #2a1515;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #007bff; /* Add border style */
+}
