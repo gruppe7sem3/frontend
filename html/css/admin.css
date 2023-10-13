@@ -45,9 +45,7 @@ button {
 button:hover {
     background-color: #0056b3;
 }
-hr {
-    border-color: #007bff;
-}
+
 #response, #deleteResponse, #showResponse {
     margin: 20px;
 }
@@ -77,6 +75,10 @@ hr {
 .movie-form {
     background-color: #04010192;
     color: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px;
+    border: 1px solid #007bff; /* Add border style */
 }
 
 /* Style for the "delete-movie" section */
@@ -88,7 +90,7 @@ hr {
 /* Style for the "add-show" section */
 .add-show {
     background-color: #000;
-    color: #2a1515;
+    color: #ffffff;
 }
 
 /* Style for buttons */
@@ -116,15 +118,15 @@ label {
     padding: 0;
 }
 
-/* Style for the "delete-show" section */
-.delete-show {
+/* Style for the "delete-movie" section */
+.delete-movie {
     background-color: #12020280;
     color: #fff;
     padding: 20px;
     border-radius: 10px;
     margin: 20px;
+    border: 1px solid #007bff; /* Add border style */
 }
-
 /* Style for the "Slet et show" h2 header */
 .delete-show h2 {
     color: #fff;
@@ -170,7 +172,7 @@ label {
 /* Style for the "add-show" section */
 .add-show {
     background-color: #0000009e;
-    color: #2a1515;
+    color: #ffffff;
     padding: 20px;
     border-radius: 10px;
     margin: 20px;
