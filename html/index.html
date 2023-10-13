@@ -1,107 +1,299 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Kino Biografen</title>
-    <!-- Bootstrap CSS -->
-    <!-- Bootstrap JS -->
-    <style>
-        .title-container {
-            background-color: transparent;
-            color: #ffffff;
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0">
+ <title>Kino Biografen</title>
+ <!-- Bootstrap CSS -->
+
+ <!-- Bootstrap JS -->
+ <style>
+  
+  .title-container {
+            background-color: transparent; /* Transparent background */
+            color: #ffffff; /* White text color for contrast */
             text-align: center;
-            font-family: 'Arial', sans-serif;
-            font-size: 48px;
+            font-family: 'Arial', sans-serif; /* Choose a legible font */
+            font-size: 48px; /* Larger font size */
             font-weight: bold;
             padding: 30px 0;
         }
 
         .show-times {
-            list-style: none;
-            padding: 0;
-        }
+    list-style: none;
+    padding: 0;
+}
 
-        /* Styling for individual show time items (boxes) */
-        .show-times li {
-            color: #fff;
-            font-size: 18px;
-            border: 2px solid #2980b9;
-            padding: 10px 20px;
-            margin: 10px 0;
-            border-radius: 8px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-            text-align: center;
-        }
+/* Styling for individual show time items (boxes) */
+.show-times li {
+    /* Background color for the boxes */
+    color: #fff; /* Text color */
+    font-size: 18px;
+    border: 2px solid #2980b9; /* Border for the boxes */
+    padding: 10px 20px;
+    margin: 10px 0; /* Add vertical margin to separate the boxes */
+    border-radius: 8px; /* Rounded corners for a nice look */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Add a subtle shadow */
+    text-align: center;
+}
 
-        /* Style for movie cards */
-        .movie-card {
-            background-color: #222;
-            color: white;
-            padding: 20px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
+  
+   /* Style for movie cards */
+   .movie-card {
+     background-color: #222;
+     color: white;
+     padding: 20px;
+     margin-bottom: 20px;
+     display: flex;
+     justify-content: space-between;
+     align-items: center;
+   }
 
-        .poster-image {
-            width: 30%;
-        }
 
-        .movie-details {
-            width: 65%;
-        }
 
-        .show-times {
-            list-style: none;
-            padding: 0;
-        }
 
-        .show-time-item {
-            margin: 5px 0;
-        }
+   .poster-image {
+     width: 30%;
+   }
 
-        .head-container {
-            color: #ffffff;
-            text-align: center;
-            margin: 20px 0;
-            font-family: 'Helvetica Neue', sans-serif;
-            background: linear-gradient(90deg, white 50%, #3498db 50%);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            text-align: center;
-            font-size: 24px;
-            font-weight: bold;
-        }
-    </style>
+
+
+
+   .movie-details {
+     width: 65%;
+   }
+
+
+
+
+   .show-times {
+     list-style: none;
+     padding: 0;
+   }
+
+
+
+
+   .show-time-item {
+     margin: 5px 0;
+   }
+   .head-container{
+    color: #ffffff;
+    text-align: center;
+    margin: 20px 0;
+      font-family: 'Helvetica Neue', sans-serif;
+      background: linear-gradient(90deg, white 50%, #3498db 50%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      text-align: center;
+      font-size: 24px;
+      font-weight: bold;
+    }
+
+   
+ </style>
 </head>
 <body style="background-color: black;">
-    <div class="title-container">
-        <h1 style="background: linear-gradient(90deg, white 50%, #3498db 50%); -webkit-background-clip: text; background-clip: text; color: transparent;">Kino XP</h1>
-        <p style="background: linear-gradient(90deg, white 50%, #3498db 50%); -webkit-background-clip: text; background-clip: text; color: transparent;">Nordens bedste biograf</p>
-    </div>
-    <div class="head-container">
-        <h2>Program</h2>
-    </div>
-    <!-- Movie Schedule -->
-    <div class="container my-5" id="movie-container">
-        <div class="row" id="movie-cards">
-            <!-- Movie Cards will be generated here -->
-        </div>
-    </div>
-    <!-- Include jQuery (you may need to download it or use a CDN) -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <!-- Load the navbar using jQuery -->
-    <script>
-        $(function () {
-            $('#navbar-placeholder').load('navbar.html');
-        });
-    </script>
-    <!-- JavaScript to fetch and display movies -->
-    <script src="index.js"></script>
+ <!-- Placeholder for the navbar -->
+ <div id="navbar-placeholder"></div>
+
+ 
+ <div class="title-container">
+  <h1 style="background: linear-gradient(90deg, white 50%, #3498db 50%); -webkit-background-clip: text; background-clip: text; color: transparent;">Kino XP</h1>
+  <p style="background: linear-gradient(90deg, white 50%, #3498db 50%); -webkit-background-clip: text; background-clip: text; color: transparent;">Nordens bedste biograf</p>
+</div>
+
+<div class="head-container">
+  <h2>Program</h2>
+</div>
+
+
+ <!-- Movie Schedule -->
+ 
+ <div class="container my-5" id="movie-container">
+   <div class="row" id="movie-cards">
+     <!-- Movie Cards will be generated here -->
+   </div>
+ </div>
+
+
+
+
+
+
+ <!-- Include jQuery (you may need to download it or use a CDN) -->
+ <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
+
+ <!-- Load the navbar using jQuery -->
+ <script>
+   $(function() {
+     $('#navbar-placeholder').load('navbar.html');
+   });
+ </script>
+
+
+
+
+ <!-- JavaScript to fetch and display movies -->
+<!-- JavaScript to fetch and display movies -->
+<script>
+ // Function to fetch JSON data from your API
+ function fetchMovies() {
+   fetch('http://localhost:2222/shows')
+     .then((response) => response.json())
+     .then((data) => {
+       const movieContainer = document.getElementById('movie-cards');
+       const groupedMovies = groupMoviesByPoster(data);
+
+
+
+
+       // Loop through the grouped movies
+       for (const posterUrl in groupedMovies) {
+         const movies = groupedMovies[posterUrl];
+
+
+
+
+         // Create a movie card for the poster
+         const movieCard = createMovieCard(posterUrl, movies);
+         movieContainer.appendChild(movieCard);
+       }
+     })
+     .catch((error) => {
+       console.error('Error fetching data:', error);
+     });
+ }
+
+
+
+
+ // Helper function to group movies by poster URL
+ function groupMoviesByPoster(movies) {
+   const grouped = {};
+   movies.forEach((movie) => {
+     if (!grouped[movie.poster]) {
+       grouped[movie.poster] = [];
+     }
+     grouped[movie.poster].push(movie);
+   });
+   return grouped;
+ }
+
+
+
+
+ // Helper function to create a movie card
+ function createMovieCard(posterUrl, movies) {
+   const cardDiv = document.createElement('div');
+   cardDiv.classList.add('col-md-12', 'mb-4');
+
+
+
+
+   const card = document.createElement('div');
+   card.classList.add('movie-card');
+
+
+
+
+   // Create an image for the poster
+   const img = document.createElement('img');
+   img.src = posterUrl;
+   img.classList.add('poster-image');
+
+
+
+
+   // Create a div for movie details (title and show times)
+   const movieDetailsDiv = document.createElement('div');
+   movieDetailsDiv.classList.add('movie-details');
+
+
+
+
+   // Create a list to display show times
+   const showTimesList = document.createElement('ul');
+   showTimesList.classList.add('show-times');
+
+
+
+
+   // Add individual movie show times to the list
+   movies.forEach((movie) => {
+     const movieShowTime = createShowTimeListItem(movie);
+     showTimesList.appendChild(movieShowTime);
+   });
+
+
+
+
+   // Append elements to build the movie card
+   movieDetailsDiv.appendChild(showTimesList);
+   card.appendChild(img);
+   card.appendChild(movieDetailsDiv);
+   cardDiv.appendChild(card);
+
+
+
+
+   return cardDiv;
+ }
+
+
+
+
+ // Helper function to create a list item for movie show time
+ function createShowTimeListItem(movie) {
+ const listItem = document.createElement('li');
+ listItem.classList.add('show-time-item');
+ const link = document.createElement('a');
+
+
+
+
+ // Parse the showDate and showTime values
+ const showDateTime = new Date(movie.showTime);
+ const formattedTime = showDateTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+
+
+
+ // Check if the show has hall = 2
+ if (movie.hallId === 2) {
+   link.href = `seatSelector2.html?showId=${movie.showId}`;
+ } else {
+   link.href = `seatSelector.html?showId=${movie.showId}`;
+ }
+
+
+
+
+ link.textContent = `${movie.showDate} - ${formattedTime}`;
+ listItem.appendChild(link);
+
+
+
+
+ return listItem;
+}
+
+
+
+
+ // Call the function to fetch and display movies
+ fetchMovies();
+</script>
+
+
+
+
 </body>
+</html>
 </html>
