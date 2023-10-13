@@ -1,0 +1,35 @@
+/* Style for the headline boxes */
+ .history, .parking, .time, .adress, .contacts {
+    border: 2px solid white; /* Adds a white border around each section */
+    padding: 10px; /* Add some padding inside the border */
+    margin-bottom: 20px; /* Add space between sections */
+    background-color: #000; /* Background color for the sections (black) */
+  }
+  
+  /* Style for the headlines within the boxes */
+  h2 {
+    font-family: 'Helvetica Neue', sans-serif; /* Change the font-family */
+    color: white; /* Text color for the h2 elements (white) */
+    padding: 5px; /* Add padding to the h2 elements */
+    background-color: #000; /* Background color for the h2 elements (black) */
+
+  }
+
+  
+  /* Style for the title (h2) within the title section */
+  .title h2 {
+    color: #ffffff;
+    text-align: center;
+    margin: 20px 0;
+    font-family: 'Helvetica Neue', sans-serif;
+    background: linear-gradient(90deg, white 50%, #3498db 50%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-align: center;
+    font-size: 30px;
+    font-weight: bold;
+  }
+

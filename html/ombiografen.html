@@ -6,7 +6,7 @@
   <title>Kino Biografen</title>
   <!-- Add your CSS styles or link to a Bootstrap or other CSS framework -->
 
-  <link rel="stylesheet" href="css/styles.css">
+  <link rel="stylesheet" type="text/css" href="css/ombiograf.css">
   <!-- Bootstrap CSS -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
   <!-- Bootstrap JS -->
@@ -16,6 +16,14 @@
      #home-content  {
       color: white; /* Set text color to white */
       letter-spacing: 2px;
+      body {
+    background-color: white; /* Set the background color to white */
+    color: black; /* Set text color to black */
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+    
     }
     .head-container{
     color: #ffffff;
@@ -32,6 +40,11 @@
       font-size: 24px;
       font-weight: bold;
     }
+
+   
+
+
+
   </style>
 </head>
 <body style="background-color: black;">
@@ -51,40 +64,50 @@
     </script>
 
     <!-- Biograf Information -->
-    <div class="head-container">
+    <div class="title">
       <h2>Om Biografen</h2>
     </div>
-    <p>Velkommen til vores biograf KinoXp! Her finder du nyttig information om vores biograf:</p>
 
-    <h2>Historie</h2>
-    <p>Biografen blev etableret i år 2000 og blev nyligt renoveret i 2018. 
-    Den har været en populær destination for filmelskere i vores område 
-    og tilbyder nu topmoderne teknologi og komfortable sæder for at give besøgende en fantastisk filmoplevelse.</p>
+    <div class="history">
+      <h2>Historie</h2>
+      <p>Biografen blev etableret i år 2000 og blev nyligt renoveret i 2018. 
+      Den har været en populær destination for filmelskere i vores område 
+      og tilbyder nu topmoderne teknologi og komfortable sæder for at give besøgende en fantastisk filmoplevelse.</p>
+    </div>
 
-    <h2>Parkering</h2>
-    <p>Der er gratis parkering i området i op til 2 timer med parkeringsskive. </p>
-    <p> *Scanning af din biografbillet forlænger automatisk parkeringen til 4 timer uden ekstra omkostninger* </p> 
+    <div class="parking">
+      <h2>Parkering</h2>
+      <p>Der er gratis parkering i området i op til 2 timer med parkeringsskive. </p>
+      <p> *Scanning af din biografbillet forlænger automatisk parkeringen til 4 timer uden ekstra omkostninger* </p> 
+    </div>
 
-    <h2>Åbningstider</h2>
-    <p>Vi har åbent alle dage fra mandag til søndag:</p>
-    <ul>
-      <li>Mandag:  10:00 -  00:00</li>
-      <li>Tirsdag: 10:00 -  00:00</li>
-      <li>Onsdag:  10:00 -  00:00</li>
-      <li>Torsdag: 10:00 -  00:00</li>
-      <li>Fredag:  10:00 -  00:00</li>
-      <li>Lørdag:  09:00 -  00:00</li>
-      <li>Søndag:  09:00 -  00:00</li>
-    </ul>
+    <div class="time">
+      <h2>Åbningstider</h2>
+      <p>Vi har åbent alle dage fra mandag til søndag:</p>
+      <ul>
+        <li>Mandag:  10:00 -  00:00</li>
+        <li>Tirsdag: 10:00 -  00:00</li>
+        <li>Onsdag:  10:00 -  00:00</li>
+        <li>Torsdag: 10:00 -  00:00</li>
+        <li>Fredag:  10:00 -  00:00</li>
+        <li>Lørdag:  09:00 -  00:00</li>
+        <li>Søndag:  09:00 -  00:00</li>
+      </ul>
+    </div>
 
-    <h2>Adresse</h2>
-    <p>Vores biograf er beliggende på følgende adresse:</p>
-    <p>122 cinemajestic<br>
-      2342 biografby</p>
-    <img src="https://s.hdnux.com/photos/01/22/35/43/21616848/4/1200x0.jpg" alt="Movie Poster" width="300" height="300">
-    <h2>Kontakt</h2>
-    <p>Du kan kontakte os på følgende telefonnummer:</p>
-    <p>Telefon: +45 23456779</p>
+    <div class="adress">
+      <h2>Adresse</h2>
+      <p>Vores biograf er beliggende på følgende adresse:</p>
+      <p>122 cinemajestic<br>
+        2342 biografby</p>
+      <img src="https://s.hdnux.com/photos/01/22/35/43/21616848/4/1200x0.jpg" alt="Movie Poster" width="300" height="300">
+    </div>
+
+    <div class="contacts">
+      <h2>Kontakt</h2>
+      <p>Du kan kontakte os på følgende telefonnummer:</p>
+      <p>Telefon: +45 23456779</p>
+    </div>
   </div>
 </body>
 </html>
