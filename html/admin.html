@@ -25,13 +25,12 @@
         });
       </script>
 
-
-<div class="admin">
-    <h1>Admin side</h1>
-</div>
-
 <!-- Form for adding a new movie -->
 <div class="movie-form">
+
+    <div class="admin">
+        <h1>Admin side</h1>
+    </div>
     <h2>Tilføj en film med IMDB ID</h2>
     <form id="movieForm">
         <label for="imdbId">IMDB ID:</label>
@@ -44,15 +43,14 @@
     <div id="response"></div>
 </div>
 
-<hr>
 
-<!-- Button for deleting a movie -->
 <div class="delete-movie">
     <h2>Slet en film med IMDb ID</h2>
-    <label for="deleteImdbId">IMDb ID:</label>
-    <input type="text" id="deleteImdbId" required>
-    <button id="deleteMovieButton">Slet Film</button>
-
+    <form id="deleteMovieForm">
+        <label for="deleteImdbId">IMDb ID:</label>
+        <input type="text" id="deleteImdbId" name="deleteImdbId"><br>
+        <button type="submit">Slet film</button>
+    </form>
     <div id="deleteResponse"></div>
 </div>
 
@@ -60,26 +58,21 @@
     <h2>Tilføj et show</h2>
     <form id="addShowForm">
         <label for="hallId">Sal:</label>
-        <select id="hallId" name="hall_id.hallId" required>
+        <select id="hallId" name="hallId" required>
             <option value="1">1</option>
             <option value="2">2</option>
         </select>
-
-        <select id="movieSelect" name="movieId" required>
+        <label for="movieSelect">Vælg en film:</label>
+        <select id="movieSelect" name="movieSelect" required>
             <option value="" disabled selected>Vælg en film</option>
         </select>
-
         <label for="showDateTime">Visningstidspunkt:</label>
         <input type="datetime-local" id="showDateTime" required>
-
-        <!-- Add a hidden input for show_date -->
-        <input type="hidden" id="showDate" name="show_date">
-
         <button type="submit">Tilføj show</button>
     </form>
-
     <div id="showResponse"></div>
 </div>
+
 
     <script>
         // Get the datetime-local input element
@@ -228,13 +221,18 @@
 
     </script>
 
-<h1>Slet Show</h1>
-<form id="deleteForm">
-    <label for="showId">Show ID: </label>
-    <input type="text" id="showId" name="showId" required>
-    <button type="submit">Slet Show</button>
-</form>
-<div id="result"></div>
+
+<div class="delete-show">
+   
+    <form id="deleteShowForm">
+        <h2>Slet et show</h2>
+        <label for="deleteShowId">Show ID:</label>
+        <input type="text" id="deleteShowId" name="deleteShowId" required>
+        <button type="submit">Slet show</button>
+    </form>
+    <div id="deleteShowResponse"></div>
+</div>
+
 
 <script>
     document.addEventListener('DOMContentLoaded', function() {
