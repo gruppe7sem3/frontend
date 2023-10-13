@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Admin Panel</title>
+    <!-- Add your CSS styles or link to a Bootstrap or other CSS framework -->
+  <link rel="stylesheet" href="styles.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <!-- Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
    
 
     <style>
@@ -65,8 +69,16 @@
 </style>
 </head>
 <body>
+    
+
     <!-- Placeholder for the navbar -->
     <div id="navbar-placeholder"></div>
+
+    <script>
+        $(function() {
+          $('#navbar-placeholder').load('navbar.html');
+        });
+      </script>
 
     <h1>Movie Admin Panel</h1>
 
