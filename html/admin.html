@@ -5,67 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Movie Admin Panel</title>
     <!-- Add your CSS styles or link to a Bootstrap or other CSS framework -->
-  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="css/admin.css">
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap/dist/css/bootstrap.min.css">
     <!-- Bootstrap JS. -->
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
-   
-
-    <style>
-        body {
-            background-color: black;
-            color: white;
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-        }
-        h1 {
-            text-align: center;
-            padding: 20px;
-        }
-        h2 {
-            margin-top: 20px;
-        }
-        form {
-            margin: 20px;
-            padding: 20px;
-            background-color: rgba(0, 0, 0, 0.7);
-            border-radius: 10px;
-        }
-        label {
-            display: block;
-            margin: 10px 0;
-        }
-        input[type="text"],
-        input[type="datetime-local"],
-        select {
-            width: 100%;
-            padding: 10px;
-            margin: 5px 0;
-            border: none;
-            background-color: #222;
-            color: white;
-        }
-        button {
-            background-color: #007bff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        hr {
-            border-color: #007bff;
-        }
-        #response, #deleteResponse, #showResponse {
-            margin: 20px;
-        }
-    </style>
 
 </head>
 <body>
@@ -80,9 +25,13 @@
         });
       </script>
 
-    <h1>Admin side</h1>
 
-    <!-- Form for adding a new movie -->
+<div class="admin">
+    <h1>Admin side</h1>
+</div>
+
+<!-- Form for adding a new movie -->
+<div class="movie-form">
     <h2>Tilføj en film med IMDB ID</h2>
     <form id="movieForm">
         <label for="imdbId">IMDB ID:</label>
@@ -93,17 +42,21 @@
     </form>
 
     <div id="response"></div>
+</div>
 
-    <hr>
+<hr>
 
-    <!-- Button for deleting a movie -->
+<!-- Button for deleting a movie -->
+<div class="delete-movie">
     <h2>Slet en film med IMDb ID</h2>
     <label for="deleteImdbId">IMDb ID:</label>
     <input type="text" id="deleteImdbId" required>
     <button id="deleteMovieButton">Delete Movie</button>
 
     <div id="deleteResponse"></div>
+</div>
 
+<div class="add-show">
     <h2>Tilføj et show</h2>
     <form id="addShowForm">
         <label for="hallId">Sal:</label>
@@ -126,6 +79,7 @@
     </form>
 
     <div id="showResponse"></div>
+</div>
 
     <script>
         // Get the datetime-local input element
