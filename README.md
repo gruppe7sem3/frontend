@@ -2,16 +2,19 @@ KinoXP Cinema Management System Requirements
 
 To login in our website: 
 
-Admin: 
+Admin
+
+
 
 Username: hej 
-
 Password: hej
 
-Customer: 
+Customer
+
+
+
 
 Username: lars1234
-
 Password: 1234
 
 Cinema Details:
