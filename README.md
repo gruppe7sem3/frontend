@@ -1,4 +1,15 @@
 KinoXP Cinema Management System Requirements
+
+To login in our website: 
+
+Admin: 
+Username: hej 
+Password: hej
+
+Customer: 
+Username: lars1234
+Password: 1234
+
 Cinema Details:
 
 Small cinema with 2 movie theaters.
